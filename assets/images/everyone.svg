@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <g id="Mask_Group" data-name="Mask Group" transform="translate(-280 -509)">
+    <circle id="Ellipse_187" data-name="Ellipse 187" cx="22" cy="22" r="22" transform="translate(280 509)" fill="#d9e1fa"/>
+    <g id="Group_3187" data-name="Group 3187">
+      <circle id="Ellipse_189" data-name="Ellipse 189" cx="6.261" cy="6.261" r="6.261" transform="translate(301.713 520.287) rotate(45)" fill="none" stroke="#15224f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group_3228" data-name="Group 3228">
+        <path id="Vector_629" data-name="Vector 629" d="M0,7.477V0" transform="matrix(1, 0, 0, 1, 301.713, 535.761)" fill="none" stroke="#15224f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector_630" data-name="Vector 630" d="M0,6.255V0" transform="matrix(0, 1, -1, 0, 304.84, 540.468)" fill="none" stroke="#15224f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector_628" data-name="Vector 628" d="M0,7.477V0" transform="translate(311.428 519.427) rotate(45)" fill="none" stroke="#15224f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Rectangle_739" data-name="Rectangle 739" d="M0,0H4.213V4.213" transform="translate(307.215 519.427)" fill="none" stroke="#15224f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

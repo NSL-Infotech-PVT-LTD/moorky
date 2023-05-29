@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17.677" height="23.006" viewBox="0 0 17.677 23.006">
+  <g id="mic_icon" transform="translate(-21.258 -783.867)">
+    <g id="Rectangle_37" data-name="Rectangle 37" transform="translate(25.595 783.867)" fill="#fff" stroke="#6b18c3" stroke-width="2">
+      <rect width="9.081" height="15.115" rx="4.541" stroke="none"/>
+      <rect x="1" y="1" width="7.081" height="13.115" rx="3.541" fill="none"/>
+    </g>
+    <line id="Line_3" data-name="Line 3" y2="3.6" transform="translate(30.136 802.273)" fill="none" stroke="#6b18c3" stroke-linecap="round" stroke-width="2"/>
+    <path id="Path_136" data-name="Path 136" d="M2568.46,1733.7c.03,5.927,4.511,8.385,8.009,8.342a8.009,8.009,0,0,0,7.659-8.342" transform="translate(-2546.197 -939.768)" fill="none" stroke="#6b18c3" stroke-linecap="round" stroke-width="2"/>
+  </g>
+</svg>

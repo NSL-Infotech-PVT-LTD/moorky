@@ -1,0 +1,10 @@
+<svg id="Delete" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33" height="33" viewBox="0 0 33 33">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#923667"/>
+      <stop offset="1" stop-color="#f32878"/>
+    </linearGradient>
+  </defs>
+  <rect id="Background" width="33" height="33" rx="16.5" fill="#fff"/>
+  <path id="Icon_material-delete-sweep" data-name="Icon material-delete-sweep" d="M13.47,15.665h3.222v1.611H13.47Zm0-6.443h5.638v1.611H13.47Zm0,3.222H18.3v1.611H13.47ZM3.805,17.275a1.616,1.616,0,0,0,1.611,1.611h4.832a1.616,1.616,0,0,0,1.611-1.611V9.222H3.805Zm8.859-10.47H10.248L9.443,6H6.222l-.805.805H3V8.416h9.665Z" transform="translate(5.266 4.013)" fill="url(#linear-gradient)"/>
+</svg>

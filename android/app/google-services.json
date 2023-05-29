@@ -1,0 +1,70 @@
+{
+  "project_info": {
+    "project_number": "895180021126",
+    "project_id": "moorky-ae26f",
+    "storage_bucket": "moorky-ae26f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895180021126:android:0b7afb8227691c1181e007",
+        "android_client_info": {
+          "package_name": "com.moorkyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895180021126-pb6nb5lv5uvllvneer7mojefk1ehnbkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moorkyapp",
+            "certificate_hash": "a69dcbfd98358c0c378f454f020b662ab273c7c5"
+          }
+        },
+        {
+          "client_id": "895180021126-t00f99utc7dcf3mg9dqrqk467lhumh0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moorkyapp",
+            "certificate_hash": "2d05e28332cf2f7cfdc257548d298e982e0aad74"
+          }
+        },
+        {
+          "client_id": "895180021126-t5of0gfjmv7iffabbf3ef0tmtuqrkquf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moorkyapp",
+            "certificate_hash": "08c0970baac8d6cf6bc53986de20e88cd5d9b02b"
+          }
+        },
+        {
+          "client_id": "895180021126-rd545liis6ak6cjoeei40mhl0jm55etn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxlp6u8GlU2XZx-fv-VJ4osL1r8upw9nU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895180021126-rd545liis6ak6cjoeei40mhl0jm55etn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "895180021126-2dld9c04vojsi9li2a8e1afq45pr8j4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moorky.dating.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
