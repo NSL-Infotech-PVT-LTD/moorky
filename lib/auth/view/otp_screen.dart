@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -266,21 +268,25 @@ class _OtpScreenState extends State<OtpScreen> {
                     keyboardType: TextInputType.number,
                     showCursor: false,
                     onCompleted: (v) async {
+                      String? token =
+                          await FirebaseMessaging.instance.getToken();
+
                       setState(() {
                         code = v;
                         print(code);
                       });
+                      print("gvhjbkl;" + token!);
                       isTrue = true;
                       if (isTrue) {
                         setState(() {
                           isLoad = true;
                         });
-                        if (role == "email")
-                        {
+                        if (role == "email") {
                           var signupverifymodel = await auth.updateotpVerify(
                               preferences!.getString("token").toString(),
                               code.toString(),
                               preferences!.getString("accesstoken")!);
+
                           if (signupverifymodel.statusCode == 200) {
                             setState(() {
                               isLoad = false;
@@ -291,7 +297,9 @@ class _OtpScreenState extends State<OtpScreen> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         AccountCreatedScreen()));
-                          } else if (signupverifymodel.statusCode == 422) {
+
+                          }
+                          else if (signupverifymodel.statusCode == 422) {
                             setState(() {
                               isLoad = false;
                             });
@@ -302,26 +310,32 @@ class _OtpScreenState extends State<OtpScreen> {
                             });
                             showSnakbar(signupverifymodel.message!, context);
                           }
-                        }
-                        else
-                        {
+                        } else {
                           if (widget.already_register) {
-                            print('otpVerify token=${preferences!.getString("token").toString()}');
-                            print('11111111');
+                            print(
+                                'otpVerify token=${preferences!.getString("token").toString()}');
+
                             var signupverifymodel = await auth.otpVerify(
                                 preferences!.getString("token").toString(),
                                 code.toString());
                             if (signupverifymodel.statusCode == 200) {
-                              preferences!.setString("accesstoken", signupverifymodel.data!.accessToken!);
+                              print(
+                                  '11111111${signupverifymodel.data!.accessToken!}');
+                              preferences!.setString("accesstoken",
+                                  signupverifymodel.data!.accessToken!);
                               preferences!.setString("realphoto", "realphoto");
                               preferences!.setString("user_id",
                                   signupverifymodel.data!.id.toString());
-                              String? token = await FirebaseMessaging.instance.getToken();
-                              print("my device token");
+                              // String? token = await FirebaseMessaging.instance.getToken();
+                              print("my device token 1");
+                              print("ashdfoahjfoji");
                               print(token);
                               var model = await ProfileRepository.updateProfile(
                                   token.toString(),
-                                  "device_token", preferences!.getString("accesstoken")!);
+                                  "device_token",
+                                  preferences!.getString("accesstoken")!);
+                              print("ashdfoahjfoji${model.statusCode}");
+
                               if (model.statusCode == 200) {
                                 setState(() {
                                   isLoad = false;
@@ -331,7 +345,26 @@ class _OtpScreenState extends State<OtpScreen> {
                                   userInfo.userID = model.data!.id.toString();
                                   userInfo.userName =
                                       model.data!.name.toString();
-                                  await ZIM.getInstance()!.login(userInfo);
+                                  print(userInfo.userID);
+                                  print(userInfo.userName);
+                                  print("userInfo.userName");
+                                  preferences!
+                                      .setString("email", model.data!.email!);
+
+                                  // await ZIM.getInstance()!.login(userInfo);
+                                  // Navigator.of(context).pop;
+                                  //  fi
+                                  //  nal signupCredential =await FirebaseAuth.instance.createUserWithEmailAndPassword(email: model.data!.email, password: "12345678");
+                                  var fb = FirebaseAuth.instance;
+if(model.data!.email!=null) {
+  print("Nul emial null nddemial");
+  signInWithEmailAndPassword(
+      model.data!.email, "12345678");
+}
+else{
+  print("Nul emial null nemial");
+}
+                                  print("djsflasjdfl");
                                   Navigator.of(context).pop;
                                   print('success');
                                   UserModel.shared().userInfo = userInfo;
@@ -341,11 +374,84 @@ class _OtpScreenState extends State<OtpScreen> {
                                       'userID', model.data!.id.toString());
                                   await prefs.setString(
                                       'userName', model.data!.name.toString());
+                                  await prefs.setString(
+                                      'email', model.data!.email.toString());
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              DashBoardScreen(pageIndex: 1,isNotification: false,)));
+                                          builder: (context) => DashBoardScreen(
+                                                pageIndex: 1,
+                                                isNotification: false,
+                                              )));
+
+                                  /// Check after check
+                                  // await ZIM.getInstance()!.login(userInfo);
+
+                                } catch (onError) {
+                                  print("hjvkl;$onError");
+                                  Navigator.of(context).pop();
+                                }
+                              }
+                            }
+                            else if (signupverifymodel.statusCode == 422) {
+                              setState(() {
+                                print('sdhfksdhf');
+                                isLoad = false;
+                              });
+                              showSnakbar(signupverifymodel.message!, context);
+                            } else {
+                              setState(() {
+                                print('sdfghsh');
+                                isLoad = false;
+                              });
+                              showSnakbar(signupverifymodel.message!, context);
+                            }
+                          }
+                          else if (socialrole == "social") {
+                            print('socialrole');
+                            var signupverifymodel = await auth.otpVerify(
+                                preferences!.getString("token").toString(),
+                                code.toString());
+                            if (signupverifymodel.statusCode == 200) {
+                              preferences!.setBool("accountcreated", true);
+                              setState(() {
+                                isLoad = false;
+                              });
+                              preferences!.setString("accesstoken",
+                                  signupverifymodel.data!.accessToken!);
+                              preferences!.setString("user_id",
+                                  signupverifymodel.data!.id.toString());
+                              String? token =
+                                  await FirebaseMessaging.instance.getToken();
+                              print("my device token 2");
+                              print(token);
+                              var model = await ProfileRepository.updateProfile(
+                                  token.toString(),
+                                  "device_token",
+                                  preferences!.getString("accesstoken")!);
+                              if (model.statusCode == 200) {
+                                print("fasjdfoiaejrfh");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AccountCreatedScreen()));
+                                try {
+                                  ZIMUserInfo userInfo = ZIMUserInfo();
+                                  userInfo.userID = model.data!.id.toString();
+                                  userInfo.userName =
+                                      model.data!.name.toString();
+                                 // await ZIM.getInstance()!.login(userInfo);
+                                  Navigator.of(context).pop;
+                                  print('success');
+                                  UserModel.shared().userInfo = userInfo;
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setString(
+                                      'userID', model.data!.id.toString());
+                                  await prefs.setString(
+                                      'userName', model.data!.name.toString());
                                 } on PlatformException catch (onError) {
                                   Navigator.of(context).pop();
                                 }
@@ -362,62 +468,8 @@ class _OtpScreenState extends State<OtpScreen> {
                               showSnakbar(signupverifymodel.message!, context);
                             }
                           }
-                          else if (socialrole == "social") {
-                            var signupverifymodel = await auth.otpVerify(
-                                preferences!.getString("token").toString(),
-                                code.toString());
-                            if (signupverifymodel.statusCode == 200) {
-                              preferences!.setBool("accountcreated", true);
-                              setState(() {
-                                isLoad = false;
-                              });
-                              preferences!.setString("accesstoken",
-                                  signupverifymodel.data!.accessToken!);
-                              preferences!.setString("user_id",
-                                  signupverifymodel.data!.id.toString());
-                              String? token =
-                                  await FirebaseMessaging.instance.getToken();
-                              print("my device token");
-                              print(token);
-                              var model = await ProfileRepository.updateProfile(
-                                  token.toString(),
-                                  "device_token",
-                                  preferences!.getString("accesstoken")!);
-                              if (model.statusCode == 200) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            AccountCreatedScreen()));
-                                // try {
-                                //   ZIMUserInfo userInfo = ZIMUserInfo();
-                                //   userInfo.userID=model.data!.id.toString();
-                                //   userInfo.userName=model.data!.name.toString();
-                                //   await ZIM.getInstance()!.login(userInfo);
-                                //   Navigator.of(context).pop;
-                                //   print('success');
-                                //   UserModel.shared().userInfo = userInfo;
-                                //   final prefs = await SharedPreferences.getInstance();
-                                //   await prefs.setString('userID', model.data!.id.toString());
-                                //   await prefs.setString('userName', model.data!.name.toString());
-                                //
-                                // } on PlatformException catch (onError) {
-                                //   Navigator.of(context).pop();
-                                // }
-
-                              }
-                            } else if (signupverifymodel.statusCode == 422) {
-                              setState(() {
-                                isLoad = false;
-                              });
-                              showSnakbar(signupverifymodel.message!, context);
-                            } else {
-                              setState(() {
-                                isLoad = false;
-                              });
-                              showSnakbar(signupverifymodel.message!, context);
-                            }
-                          } else {
+                          else {
+                            print('else condition');
                             var signupverifymodel = await auth.otpVerify(
                                 preferences!.getString("token").toString(),
                                 code.toString());
@@ -431,7 +483,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   signupverifymodel.data!.id.toString());
                               String? token =
                                   await FirebaseMessaging.instance.getToken();
-                              print("my device token");
+                              print("my device token 3");
                               print(token);
                               var model = await ProfileRepository.updateProfile(
                                   token.toString(),
@@ -443,10 +495,12 @@ class _OtpScreenState extends State<OtpScreen> {
                                   userInfo.userID = model.data!.id.toString();
                                   userInfo.userName =
                                       model.data!.name.toString();
-                                  await ZIM.getInstance()!.login(userInfo);
-                                  Navigator.of(context).pop;
+                                  print('success${userInfo.userID}');
+                                  print('success${userInfo.userName}');
+
+                                  //  Navigator.of(context).pop;
                                   print('success');
-                                  UserModel.shared().userInfo = userInfo;
+                                  //UserModel.shared().userInfo = userInfo;
                                   final prefs =
                                       await SharedPreferences.getInstance();
                                   await prefs.setString(
@@ -457,6 +511,9 @@ class _OtpScreenState extends State<OtpScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => EmailScreen()));
+
+                                  ///Change after check
+                                 // await ZIM.getInstance()?.login(userInfo);
                                 } on PlatformException catch (onError) {
                                   Navigator.of(context).pop();
                                 }
@@ -584,7 +641,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       String? token = await FirebaseMessaging
                                           .instance
                                           .getToken();
-                                      print("my device token");
+                                      print("my device token 4");
                                       print(token);
                                       var model =
                                           await ProfileRepository.updateProfile(
@@ -619,7 +676,10 @@ class _OtpScreenState extends State<OtpScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      DashBoardScreen(pageIndex: 1,isNotification: false,)));
+                                                      DashBoardScreen(
+                                                        pageIndex: 1,
+                                                        isNotification: false,
+                                                      )));
                                         } on PlatformException catch (onError) {
                                           Navigator.of(context).pop();
                                         }
@@ -639,7 +699,12 @@ class _OtpScreenState extends State<OtpScreen> {
                                           signupverifymodel.message!, context);
                                     }
                                   } else if (socialrole == "social") {
-                                    var signupverifymodel = await auth.otpVerify(preferences!.getString("token").toString(), code.toString());
+                                    var signupverifymodel =
+                                        await auth.otpVerify(
+                                            preferences!
+                                                .getString("token")
+                                                .toString(),
+                                            code.toString());
                                     if (signupverifymodel.statusCode == 200) {
                                       preferences!
                                           .setBool("accountcreated", true);
@@ -655,7 +720,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       String? token = await FirebaseMessaging
                                           .instance
                                           .getToken();
-                                      print("my device token");
+                                      print("my device token 5");
                                       print(token);
                                       var model =
                                           await ProfileRepository.updateProfile(
@@ -707,7 +772,8 @@ class _OtpScreenState extends State<OtpScreen> {
                                           signupverifymodel.message!, context);
                                     }
                                   } else {
-                                    print('otp token=${preferences!.getString("token").toString()}');
+                                    print(
+                                        'otp token=${preferences!.getString("token").toString()}');
                                     print('22222222');
                                     var signupverifymodel =
                                         await auth.otpVerify(
@@ -728,7 +794,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       String? token = await FirebaseMessaging
                                           .instance
                                           .getToken();
-                                      print("my device token");
+                                      print("my device token 6");
                                       print(token);
                                       var model =
                                           await ProfileRepository.updateProfile(
@@ -744,10 +810,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                               model.data!.id.toString();
                                           userInfo.userName =
                                               model.data!.name.toString();
-                                          await ZIM.getInstance()!.login(userInfo);
+                                          await ZIM
+                                              .getInstance()!
+                                              .login(userInfo);
                                           Navigator.of(context).pop;
                                           print('success');
-                                          UserModel.shared().userInfo = userInfo;
+                                          UserModel.shared().userInfo =
+                                              userInfo;
                                           final prefs = await SharedPreferences
                                               .getInstance();
                                           await prefs.setString('userID',
@@ -763,8 +832,8 @@ class _OtpScreenState extends State<OtpScreen> {
                                           Navigator.of(context).pop();
                                         }
                                       }
-                                    }
-                                    else if (signupverifymodel.statusCode == 422) {
+                                    } else if (signupverifymodel.statusCode ==
+                                        422) {
                                       setState(() {
                                         isLoad = false;
                                       });
@@ -820,16 +889,16 @@ class _OtpScreenState extends State<OtpScreen> {
                               14,
                               Color(0xFFC2A3DD)),
                         ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 15.h),
-                    child: Container(
-                      height: 8.h,
-                      width: 140.w,
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(25.r)),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(bottom: 15.h),
+                  //   child: Container(
+                  //     height: 8.h,
+                  //     width: 140.w,
+                  //     decoration: BoxDecoration(
+                  //         color: Colors.black,
+                  //         borderRadius: BorderRadius.circular(25.r)),
+                  //   ),
+                  // ),
                 ],
               ),
             ],
@@ -837,6 +906,109 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
     );
+  }
+
+  Future<String?> signInWithEmailAndPassword(
+      String email, String password) async {
+    String errorMessage;
+    User? user;
+    FirebaseFirestore firebasStorage = FirebaseFirestore.instance;
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      user = userCredential.user;
+      if (user!.uid.isNotEmpty) {
+        if (user != null) {
+          print("hrlooooo");
+          // Check is already sign up
+          final QuerySnapshot result = await firebasStorage
+              .collection('users')
+              .where('id', isEqualTo: user.uid)
+              .get();
+          final List<DocumentSnapshot> documents = result.docs;
+          print("========..........${documents.length}");
+          if (documents.length == 0) {
+            // Update data to server if new user
+            firebasStorage.collection('users').doc(user.uid).set(
+                {'nickname': email, 'photoUrl': user.photoURL, 'id': user.uid});
+          }
+        }
+
+        return 'Success';
+      }
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+        case "account-exists-with-different-credential":
+        case "email-already-in-use":
+          errorMessage = "Email already used. Go to login page.";
+          break;
+        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
+          errorMessage = "Wrong email/password combination.";
+          break;
+        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
+          errorMessage = "No user found with this email.";
+          print("herererer");
+          createAccountWithEmail(email, "12345678");
+          break;
+        case "ERROR_USER_DISABLED":
+        case "user-disabled":
+          errorMessage = "User disabled.";
+          break;
+        case "ERROR_TOO_MANY_REQUESTS":
+        case "operation-not-allowed":
+          errorMessage = "Too many requests to log into this account.";
+          break;
+        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
+          errorMessage = "Server error, please try again later.";
+          break;
+        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
+          errorMessage = "Email address is invalid.";
+          break;
+        default:
+          errorMessage = "Login failed. Please try again.";
+          break;
+      }
+
+      return errorMessage;
+    }
+
+    return null;
+  }
+
+  Future<String?> createAccountWithEmail(String email, String password) async {
+    String errorMessage;
+    User? user;
+    FirebaseFirestore firebasStorage = FirebaseFirestore.instance;
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      user = userCredential.user;
+      if (user!.uid.isNotEmpty) {
+      firebasStorage.collection('users').doc(user.uid).set(
+            {'nickname': email, 'photoUrl': user.photoURL, 'id': user.uid,"isTyping":false});
+
+        return 'Success';
+      }
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "EMAIL_ALREADY_IN_USE":
+        case "email-already-in-use":
+          errorMessage = "Email already used. Go to login page.";
+          break;
+        default:
+          errorMessage = "Login failed. Please try again.";
+          break;
+      }
+
+      return errorMessage;
+    }
+
+    return null;
   }
 }
 

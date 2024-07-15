@@ -314,8 +314,8 @@ class _ChatState extends State<Chat> {
                             ],
                           ),
                           SizedBox(height: 20.h,),
-                          Container(
-                            height: 8.h,width: 160.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
+                          // Container(
+                          //   height: 8.h,width: 160.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
                         ],
                       ),
                     ),

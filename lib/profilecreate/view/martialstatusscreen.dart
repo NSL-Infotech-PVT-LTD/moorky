@@ -179,7 +179,7 @@ class _MaritalStatusState extends State<MaritalStatus> {
                       height: 8.h,
                       width: 140.w,
                       decoration: BoxDecoration(
-                          color: Color(0xFF751ACD),
+                          // color: Color(0xFF751ACD),
                           borderRadius: BorderRadius.circular(25.r)),
                     ),
                   ],

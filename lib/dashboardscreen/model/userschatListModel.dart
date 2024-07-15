@@ -38,10 +38,12 @@ class Datum {
     this.createdAt,
     this.updatedAt,
     this.user,
+    this.seenStaus,
     this.isDeleteChat
   });
 
   dynamic id;
+  dynamic seenStaus;
   dynamic selfId;
   dynamic userId;
   dynamic createdAt;
@@ -51,6 +53,7 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"] == null ? null : json["id"],
+      seenStaus: json["seenStaus"] == null ? null : json["seenStaus"],
     selfId: json["self_id"] == null ? null : json["self_id"],
     userId: json["user_id"] == null ? null : json["user_id"],
     createdAt: json["created_at"] == null ? null : json["created_at"],
@@ -61,6 +64,7 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
     "id": id == null ? null : id,
+    "seenStaus": seenStaus == null ? null : seenStaus,
     "self_id": selfId == null ? null : selfId,
     "user_id": userId == null ? null : userId,
     "created_at": createdAt == null ? null : createdAt,

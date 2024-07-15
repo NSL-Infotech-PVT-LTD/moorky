@@ -60,7 +60,7 @@ dependencies:
   change_app_package_name: ^1.1.0
   dropdown_button2: ^1.7.2
   country_picker: ^2.0.16
-  syncfusion_flutter_charts: ^20.2.44
+#  syncfusion_flutter_charts: ^20.4.54
   geolocator: ^9.0.1
   geocoding: ^2.0.5
   age_calculator: ^1.0.0
@@ -80,7 +80,7 @@ dependencies:
   path_provider: ^2.0.11
   filesystem_picker: ^3.0.0
   file_picker: ^5.0.1
-  emoji_picker_flutter: ^1.5.0
+  emoji_picker_flutter: ^1.5.4
   flutter_easyrefresh: ^2.2.2
   photo_view: ^0.14.0
   pin_code_fields:
@@ -89,6 +89,15 @@ dependencies:
 #  macos_ui:
   flutter_native_image:
   firebase_core_platform_interface: 4.5.1
+  firebase_auth:
+  firebase_storage:
+  cloud_firestore: ^3.5.1
+  shimmer: ^3.0.0
+  flutter_keyboard_visibility: ^5.4.1
+  showcaseview: ^2.0.3
+  flutter_card_swiper: ^5.1.0
+  flutter_inappwebview:
+  flutter_shakemywidget: ^1.0.5+1
 
 
 dev_dependencies:

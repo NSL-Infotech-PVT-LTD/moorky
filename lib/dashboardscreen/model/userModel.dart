@@ -1,4 +1,5 @@
 
+
 List<UserDatum> likeUserFromJson(dynamic str) => List<UserDatum>.from((str).map((x) => UserDatum.fromJson(x)));
 class UserModel {
   UserModel({
@@ -12,14 +13,14 @@ class UserModel {
   dynamic statusCode;
   dynamic message;
   dynamic pages;
-  int undo_count;
+  int undo_count=0;
   List<UserDatum>? data;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     statusCode: json["statusCode"] == null ? null : json["statusCode"],
     message: json["message"] == null ? null : json["message"],
     pages: json["pages"] == null ? null : json["pages"],
-    undo_count: json["undo_count"] == null ? null : json["undo_count"],
+    undo_count: json["undo_count"] == null ? 0 : json["undo_count"],
     data: json["data"] == null ? null : List<UserDatum>.from(json["data"].map((x) => UserDatum.fromJson(x))),
   );
 
@@ -27,7 +28,7 @@ class UserModel {
     "statusCode": statusCode == null ? null : statusCode,
     "message": message == null ? null : message,
     "pages": pages == null ? null : pages,
-    "undo_count": undo_count == null ? null : undo_count,
+    "undo_count": undo_count == null ? 0 : undo_count,
     "data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
@@ -87,6 +88,7 @@ class UserDatum {
     this.subscription,
     this.swipe_count,
     this.is_ghost,
+    this.languages,this.userQuestions
   });
 
   dynamic id;
@@ -142,6 +144,8 @@ class UserDatum {
   bool? subscription;
   List<Images>? images;
   List<Interest>? interests;
+  List<UserQuestion>? userQuestions;
+  List<Language>? languages;
 
   factory UserDatum.fromJson(Map<String, dynamic> json) => UserDatum(
     id: json["id"] == null ? null : json["id"],
@@ -197,6 +201,8 @@ class UserDatum {
     latestMessageAt: json["latest_message_at"] == null ? null : json["latest_message_at"],
     images: json["images"] == null ? null : List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
     interests: json["interests"] == null ? null : List<Interest>.from(json["interests"].map((x) => Interest.fromJson(x))),
+    userQuestions: json["user_questions"] == null ? null : List<UserQuestion>.from(json["user_questions"].map((x) => UserQuestion.fromJson(x))),
+    languages: json["languages"] == null ? null : List<Language>.from(json["languages"].map((x) => Language.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -253,6 +259,9 @@ class UserDatum {
     "latest_message_at": latestMessageAt == null ? null : latestMessageAt,
     "images": images == null ? null : List<dynamic>.from(images!.map((x) => x.toJson())),
     "interests": interests == null ? null : List<dynamic>.from(interests!.map((x) => x.toJson())),
+    "user_questions": userQuestions == null ? null : List<dynamic>.from(userQuestions!.map((x) => x.toJson())),
+    "languages": languages == null ? null : List<dynamic>.from(languages!.map((x) => x.toJson())),
+
   };
 }
 
@@ -298,11 +307,13 @@ class Interest {
     this.createdAt,
     this.updatedAt,
     this.pivot,
+    this.interestMatch,
   });
 
   dynamic id;
   dynamic name;
   bool? status;
+  bool? interestMatch;
   dynamic createdAt;
   dynamic updatedAt;
   Pivot? pivot;
@@ -313,6 +324,7 @@ class Interest {
     status: json["status"] == null ? null : json["status"],
     createdAt: json["created_at"] == null ? null : json["created_at"],
     updatedAt: json["updated_at"] == null ? null : json["updated_at"],
+    interestMatch: json["intrestmatch"] == null ? null : json["intrestmatch"],
     pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
   );
 
@@ -320,6 +332,7 @@ class Interest {
     "id": id == null ? null : id,
     "name": name == null ? null : name,
     "status": status == null ? null : status,
+    "intrestmatch": interestMatch == null ? null : interestMatch,
     "created_at": createdAt == null ? null : createdAt,
     "updated_at": updatedAt == null ? null : updatedAt,
     "pivot": pivot == null ? null : pivot!.toJson(),
@@ -350,3 +363,113 @@ class Pivot {
   };
 }
 
+class UserQuestion {
+  UserQuestion({
+    this.id,
+    this.userId,
+    this.questionId,
+    this.answer,
+    this.createdAt,
+    this.updatedAt,
+    this.question,
+    this.isDelete
+  });
+
+  dynamic id;
+  dynamic userId;
+  dynamic questionId;
+  dynamic answer;
+  dynamic createdAt;
+  dynamic updatedAt;
+  Question? question;
+  bool? isDelete=false;
+
+  factory UserQuestion.fromJson(Map<String, dynamic> json) => UserQuestion(
+      id: json["id"] == null ? null : json["id"],
+      userId: json["user_id"] == null ? null : json["user_id"],
+      questionId: json["question_id"] == null ? null : json["question_id"],
+      answer: json["answer"] == null ? null : json["answer"],
+      createdAt: json["created_at"] == null ? null : json["created_at"],
+      updatedAt: json["updated_at"] == null ? null : json["updated_at"],
+      question: json["question"] == null ? null : Question.fromJson(json["question"]),
+      isDelete: false
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "user_id": userId == null ? null : userId,
+    "question_id": questionId == null ? null : questionId,
+    "answer": answer == null ? null : answer,
+    "created_at": createdAt == null ? null : createdAt,
+    "updated_at": updatedAt == null ? null : updatedAt,
+    "question": question == null ? null : question!.toJson(),
+  };
+}
+
+class Question {
+  Question({
+    this.id,
+    this.question,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  dynamic id;
+  dynamic question;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  factory Question.fromJson(Map<String, dynamic> json) => Question(
+    id: json["id"] == null ? null : json["id"],
+    question: json["question"] == null ? null : json["question"],
+    createdAt: json["created_at"] == null ? null : json["created_at"],
+    updatedAt: json["updated_at"] == null ? null : json["updated_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "question": question == null ? null : question,
+    "created_at": createdAt == null ? null : createdAt,
+    "updated_at": updatedAt == null ? null : updatedAt,
+  };
+}
+
+class Language {
+  Language({
+    this.id,
+    this.icon,
+    this.languageCode,
+    this.language,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  dynamic id;
+  dynamic icon;
+  dynamic languageCode;
+  dynamic language;
+  bool? status;
+  dynamic createdAt;
+  dynamic updatedAt;
+
+  factory Language.fromJson(Map<String, dynamic> json) => Language(
+    id: json["id"] == null ? null : json["id"],
+    icon: json["icon"] == null ? null : json["icon"],
+    languageCode: json["language_code"] == null ? null : json["language_code"],
+    language: json["language"] == null ? null : json["language"],
+    status: json["status"] == null ? null : json["status"],
+    createdAt: json["created_at"] == null ? null : json["created_at"],
+    updatedAt: json["updated_at"] == null ? null : json["updated_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "icon": icon == null ? null : icon,
+    "language_code": languageCode == null ? null : languageCode,
+    "language": language == null ? null : language,
+    "status": status == null ? null : status,
+    "created_at": createdAt == null ? null : createdAt,
+    "updated_at": updatedAt == null ? null : updatedAt,
+  };
+}

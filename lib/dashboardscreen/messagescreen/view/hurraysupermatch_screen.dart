@@ -56,8 +56,8 @@ class _HurraySuperMatch_ScreenState extends State<HurraySuperMatch_Screen> {
               },
                 child: addRegularText(AppLocalizations.of(context)!.keepswiping, 16, Colorss.mainColor)),
             SizedBox(height: 20.h,),
-            Container(
-              height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
+            // Container(
+            //   height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
           ],
         ),
       ),

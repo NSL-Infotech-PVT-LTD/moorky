@@ -162,11 +162,12 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
             height: 8.h,
             width: 140.w,
             decoration: BoxDecoration(
-                color: Color(0xFF751ACD),
+             // color: Color(0xFF751ACD),
                 borderRadius: BorderRadius.circular(25.r)),
           ),
         ),
         body: SingleChildScrollView(
+
           child: Container(
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -181,200 +182,313 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                             height: 10.h,
                           ),
                           !profileProvider
-                              .profiledetails!.data!.is_ghost!?Row(
+                              .profiledetails!.data!.is_ghost!?
+                          Row(
                             children: [
                               Expanded(
                                 flex: 2,
                                 child: profileProvider
-                                            .profiledetails!.data!.images!
+                                            .profiledetails!.data!.realImages!
                                             .elementAt(0)
                                             .image ==
                                         ""
-                                    ? Container(
-                                        height: 280.h,
-                                        margin: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
+                                    ? GestureDetector(
+                                  onTap: (){
+                                    Get.to(PhotoScreen(
+                                      isEdit: true,
+                                      imagefile1: profileProvider
+                                          .profiledetails!.data!.realImages![0].image!,
+                                      imagefile2: profileProvider
+                                          .profiledetails!.data!.realImages![1].image!,
+                                      imagefile3: profileProvider
+                                          .profiledetails!.data!.realImages![2].image!,
+                                      imagefile4: profileProvider
+                                          .profiledetails!.data!.realImages![3].image!,
+                                      imagefile5: profileProvider
+                                          .profiledetails!.data!.realImages![4].image!,
+                                      imagefile6: profileProvider
+                                          .profiledetails!.data!.realImages![5].image!,
+                                      imageid1: profileProvider
+                                          .profiledetails!.data!.realImages![0].id
+                                          .toString(),
+                                      imageid2: profileProvider
+                                          .profiledetails!.data!.realImages![1].id
+                                          .toString(),
+                                      imageid3: profileProvider
+                                          .profiledetails!.data!.realImages![2].id
+                                          .toString(),
+                                      imageid4: profileProvider
+                                          .profiledetails!.data!.realImages![3].id
+                                          .toString(),
+                                      imageid5: profileProvider
+                                          .profiledetails!.data!.realImages![4].id
+                                          .toString(),
+                                      imageid6: profileProvider
+                                          .profiledetails!.data!.realImages![5].id
+                                          .toString(),
+                                    ));
+                                  },
+                                      child: Container(
+                                          height: 280.h,
+                                          margin: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFFFDFAFF),
+                                              borderRadius:
+                                                  BorderRadius.circular(15.r),
+                                              border: Border.all(
+                                                  color: Colorss.mainColor,
+                                                  width: 1)),
+                                          child: SvgPicture.asset(
+                                              "assets/images/add.svg",
+                                              fit: BoxFit.scaleDown,
+                                              color: Colorss.mainColor),
+                                        ),
+                                    )
+                                    : GestureDetector(
+                                  onTap: (){
+                                    Get.to(PhotoScreen(
+                                      isEdit: true,
+                                      imagefile1: profileProvider
+                                          .profiledetails!.data!.realImages![0].image!,
+                                      imagefile2: profileProvider
+                                          .profiledetails!.data!.realImages![1].image!,
+                                      imagefile3: profileProvider
+                                          .profiledetails!.data!.realImages![2].image!,
+                                      imagefile4: profileProvider
+                                          .profiledetails!.data!.realImages![3].image!,
+                                      imagefile5: profileProvider
+                                          .profiledetails!.data!.realImages![4].image!,
+                                      imagefile6: profileProvider
+                                          .profiledetails!.data!.realImages![5].image!,
+                                      imageid1: profileProvider
+                                          .profiledetails!.data!.realImages![0].id
+                                          .toString(),
+                                      imageid2: profileProvider
+                                          .profiledetails!.data!.realImages![1].id
+                                          .toString(),
+                                      imageid3: profileProvider
+                                          .profiledetails!.data!.realImages![2].id
+                                          .toString(),
+                                      imageid4: profileProvider
+                                          .profiledetails!.data!.realImages![3].id
+                                          .toString(),
+                                      imageid5: profileProvider
+                                          .profiledetails!.data!.realImages![4].id
+                                          .toString(),
+                                      imageid6: profileProvider
+                                          .profiledetails!.data!.realImages![5].id
+                                          .toString(),
+                                    ));
+                                  },
+                                      child: Container(
+                                          height: 280.h,
+                                          margin: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
                                             color: Color(0xFFFDFAFF),
                                             borderRadius:
                                                 BorderRadius.circular(15.r),
-                                            border: Border.all(
-                                                color: Colorss.mainColor,
-                                                width: 1)),
-                                        child: SvgPicture.asset(
-                                            "assets/images/add.svg",
-                                            fit: BoxFit.scaleDown,
-                                            color: Colorss.mainColor),
-                                      )
-                                    : Container(
-                                        height: 280.h,
-                                        margin: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFDFAFF),
-                                          borderRadius:
-                                              BorderRadius.circular(15.r),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Positioned.fill(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:profileProvider
+                                                          .profiledetails!
+                                                          .data!
+                                                          .realImages![0]
+                                                          .image!,
+                                                      fit: BoxFit.cover,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                          Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        child: Stack(
-                                          children: [
-                                            Positioned.fill(
-                                              child: Container(
+                                    ),
+                              ),
+                              Expanded(
+                                  flex: 1,
+                                  child: GestureDetector(
+                                    onTap: (){
+                                      Get.to(PhotoScreen(
+                                        isEdit: true,
+                                        imagefile1: profileProvider
+                                            .profiledetails!.data!.realImages![0].image!,
+                                        imagefile2: profileProvider
+                                            .profiledetails!.data!.realImages![1].image!,
+                                        imagefile3: profileProvider
+                                            .profiledetails!.data!.realImages![2].image!,
+                                        imagefile4: profileProvider
+                                            .profiledetails!.data!.realImages![3].image!,
+                                        imagefile5: profileProvider
+                                            .profiledetails!.data!.realImages![4].image!,
+                                        imagefile6: profileProvider
+                                            .profiledetails!.data!.realImages![5].image!,
+                                        imageid1: profileProvider
+                                            .profiledetails!.data!.realImages![0].id
+                                            .toString(),
+                                        imageid2: profileProvider
+                                            .profiledetails!.data!.realImages![1].id
+                                            .toString(),
+                                        imageid3: profileProvider
+                                            .profiledetails!.data!.realImages![2].id
+                                            .toString(),
+                                        imageid4: profileProvider
+                                            .profiledetails!.data!.realImages![3].id
+                                            .toString(),
+                                        imageid5: profileProvider
+                                            .profiledetails!.data!.realImages![4].id
+                                            .toString(),
+                                        imageid6: profileProvider
+                                            .profiledetails!.data!.realImages![5].id
+                                            .toString(),
+                                      ));
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        profileProvider
+                                                    .profiledetails!.data!.realImages!
+                                                    .elementAt(1)
+                                                    .image ==
+                                                ""
+                                            ? Container(
+                                                height: 130.h,
+                                                margin: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    border: Border.all(
+                                                        color: Colorss.mainColor,
+                                                        width: 1)),
+                                                child: SvgPicture.asset(
+                                                    "assets/images/add.svg",
+                                                    fit: BoxFit.scaleDown,
+                                                    color: Colorss.mainColor),
+                                              )
+                                            : Container(
+                                                height: 130.h,
+                                                margin: EdgeInsets.all(8),
                                                 decoration: BoxDecoration(
                                                   color: Color(0xFFFDFAFF),
                                                   borderRadius:
                                                       BorderRadius.circular(15.r),
                                                 ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:profileProvider
-                                                        .profiledetails!
-                                                        .data!
-                                                        .images![0]
-                                                        .image!,
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                        Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                                  ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned.fill(
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xFFFDFAFF),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  15.r),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  15.r),
+                                                          child: CachedNetworkImage(
+                                                            imageUrl:profileProvider
+                                                                .profiledetails!
+                                                                .data!
+                                                                .realImages![1]
+                                                                .image!,
+                                                            fit: BoxFit.cover,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                              ),
-                              Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      profileProvider
-                                                  .profiledetails!.data!.images!
-                                                  .elementAt(1)
-                                                  .image ==
-                                              ""
-                                          ? Container(
-                                              height: 130.h,
-                                              margin: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
+                                        profileProvider
+                                                .profiledetails!.data!.realImages!
+                                                .elementAt(2)
+                                                .image!
+                                                .isEmpty
+                                            ? Container(
+                                                height: 130.h,
+                                                margin: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    border: Border.all(
+                                                        color: Colorss.mainColor,
+                                                        width: 1)),
+                                                child: SvgPicture.asset(
+                                                    "assets/images/add.svg",
+                                                    fit: BoxFit.scaleDown,
+                                                    color: Colorss.mainColor),
+                                              )
+                                            : Container(
+                                                height: 130.h,
+                                                margin: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
                                                   color: Color(0xFFFDFAFF),
                                                   borderRadius:
                                                       BorderRadius.circular(15.r),
-                                                  border: Border.all(
-                                                      color: Colorss.mainColor,
-                                                      width: 1)),
-                                              child: SvgPicture.asset(
-                                                  "assets/images/add.svg",
-                                                  fit: BoxFit.scaleDown,
-                                                  color: Colorss.mainColor),
-                                            )
-                                          : Container(
-                                              height: 130.h,
-                                              margin: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xFFFDFAFF),
-                                                borderRadius:
-                                                    BorderRadius.circular(15.r),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  Positioned.fill(
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Color(0xFFFDFAFF),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                15.r),
-                                                      ),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                15.r),
-                                                        child: CachedNetworkImage(
-                                                          imageUrl:profileProvider
-                                                              .profiledetails!
-                                                              .data!
-                                                              .images![1]
-                                                              .image!,
-                                                          fit: BoxFit.cover,
-                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                              Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned.fill(
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Color(0xFFFDFAFF),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  15.r),
+                                                        ),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  15.r),
+                                                          child: CachedNetworkImage(
+                                                            imageUrl:profileProvider
+                                                                .profiledetails!
+                                                                .data!
+                                                                .realImages![2]
+                                                                .image!,
+                                                            fit: BoxFit.cover,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                      profileProvider
-                                              .profiledetails!.data!.images!
-                                              .elementAt(2)
-                                              .image!
-                                              .isEmpty
-                                          ? Container(
-                                              height: 130.h,
-                                              margin: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xFFFDFAFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                  border: Border.all(
-                                                      color: Colorss.mainColor,
-                                                      width: 1)),
-                                              child: SvgPicture.asset(
-                                                  "assets/images/add.svg",
-                                                  fit: BoxFit.scaleDown,
-                                                  color: Colorss.mainColor),
-                                            )
-                                          : Container(
-                                              height: 130.h,
-                                              margin: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xFFFDFAFF),
-                                                borderRadius:
-                                                    BorderRadius.circular(15.r),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  Positioned.fill(
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Color(0xFFFDFAFF),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                15.r),
-                                                      ),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                15.r),
-                                                        child: CachedNetworkImage(
-                                                          imageUrl:profileProvider
-                                                              .profiledetails!
-                                                              .data!
-                                                              .images![2]
-                                                              .image!,
-                                                          fit: BoxFit.cover,
-                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                              Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                    ],
+                                      ],
+                                    ),
                                   ))
                             ],
                           ):Container(),
                           !profileProvider
-                              .profiledetails!.data!.is_ghost!?Row(
+                              .profiledetails!.data!.is_ghost!?
+                          Row(
                             children: [
-                              profileProvider.profiledetails!.data!.images!
+                              profileProvider.profiledetails!.data!.realImages!
                                           .elementAt(3)
                                           .image ==
                                       ""
@@ -384,45 +498,82 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                                     )
                                   : Expanded(
                                       flex: 1,
-                                      child: Container(
-                                        height: 130.h,
-                                        margin: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFDFAFF),
-                                          borderRadius:
-                                              BorderRadius.circular(15.r),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Positioned.fill(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFFDFAFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:profileProvider
-                                                        .profiledetails!
-                                                        .data!
-                                                        .images![3]
-                                                        .image!,
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                        Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Get.to(PhotoScreen(
+                                            isEdit: true,
+                                            imagefile1: profileProvider
+                                                .profiledetails!.data!.realImages![0].image!,
+                                            imagefile2: profileProvider
+                                                .profiledetails!.data!.realImages![1].image!,
+                                            imagefile3: profileProvider
+                                                .profiledetails!.data!.realImages![2].image!,
+                                            imagefile4: profileProvider
+                                                .profiledetails!.data!.realImages![3].image!,
+                                            imagefile5: profileProvider
+                                                .profiledetails!.data!.realImages![4].image!,
+                                            imagefile6: profileProvider
+                                                .profiledetails!.data!.realImages![5].image!,
+                                            imageid1: profileProvider
+                                                .profiledetails!.data!.realImages![0].id
+                                                .toString(),
+                                            imageid2: profileProvider
+                                                .profiledetails!.data!.realImages![1].id
+                                                .toString(),
+                                            imageid3: profileProvider
+                                                .profiledetails!.data!.realImages![2].id
+                                                .toString(),
+                                            imageid4: profileProvider
+                                                .profiledetails!.data!.realImages![3].id
+                                                .toString(),
+                                            imageid5: profileProvider
+                                                .profiledetails!.data!.realImages![4].id
+                                                .toString(),
+                                            imageid6: profileProvider
+                                                .profiledetails!.data!.realImages![5].id
+                                                .toString(),
+                                          ));
+                                        },
+                                        child: Container(
+                                          height: 130.h,
+                                          margin: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFFDFAFF),
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Positioned.fill(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:profileProvider
+                                                          .profiledetails!
+                                                          .data!
+                                                          .realImages![3]
+                                                          .image!,
+                                                      fit: BoxFit.cover,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                          Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                              profileProvider.profiledetails!.data!.images!
+                              profileProvider.profiledetails!.data!.realImages!
                                       .elementAt(4)
                                       .image!
                                       .isEmpty
@@ -432,45 +583,82 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                                     )
                                   : Expanded(
                                       flex: 1,
-                                      child: Container(
-                                        height: 130.h,
-                                        margin: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFDFAFF),
-                                          borderRadius:
-                                              BorderRadius.circular(15.r),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Positioned.fill(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFFDFAFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:profileProvider
-                                                        .profiledetails!
-                                                        .data!
-                                                        .images![4]
-                                                        .image!,
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                        Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Get.to(PhotoScreen(
+                                            isEdit: true,
+                                            imagefile1: profileProvider
+                                                .profiledetails!.data!.realImages![0].image!,
+                                            imagefile2: profileProvider
+                                                .profiledetails!.data!.realImages![1].image!,
+                                            imagefile3: profileProvider
+                                                .profiledetails!.data!.realImages![2].image!,
+                                            imagefile4: profileProvider
+                                                .profiledetails!.data!.realImages![3].image!,
+                                            imagefile5: profileProvider
+                                                .profiledetails!.data!.realImages![4].image!,
+                                            imagefile6: profileProvider
+                                                .profiledetails!.data!.realImages![5].image!,
+                                            imageid1: profileProvider
+                                                .profiledetails!.data!.realImages![0].id
+                                                .toString(),
+                                            imageid2: profileProvider
+                                                .profiledetails!.data!.realImages![1].id
+                                                .toString(),
+                                            imageid3: profileProvider
+                                                .profiledetails!.data!.realImages![2].id
+                                                .toString(),
+                                            imageid4: profileProvider
+                                                .profiledetails!.data!.realImages![3].id
+                                                .toString(),
+                                            imageid5: profileProvider
+                                                .profiledetails!.data!.realImages![4].id
+                                                .toString(),
+                                            imageid6: profileProvider
+                                                .profiledetails!.data!.realImages![5].id
+                                                .toString(),
+                                          ));
+                                        },
+                                        child: Container(
+                                          height: 130.h,
+                                          margin: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFFDFAFF),
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Positioned.fill(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:profileProvider
+                                                          .profiledetails!
+                                                          .data!
+                                                          .realImages![4]
+                                                          .image!,
+                                                      fit: BoxFit.cover,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                          Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                              profileProvider.profiledetails!.data!.images!
+                              profileProvider.profiledetails!.data!.realImages!
                                           .elementAt(5)
                                           .image ==
                                       ""
@@ -480,46 +668,84 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                                     )
                                   : Expanded(
                                       flex: 1,
-                                      child: Container(
-                                        height: 130.h,
-                                        margin: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFFDFAFF),
-                                          borderRadius:
-                                              BorderRadius.circular(15.r),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Positioned.fill(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFFDFAFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15.r),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:profileProvider
-                                                        .profiledetails!
-                                                        .data!
-                                                        .images![5]
-                                                        .image!,
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                        Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
-                                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Get.to(PhotoScreen(
+                                            isEdit: true,
+                                            imagefile1: profileProvider
+                                                .profiledetails!.data!.realImages![0].image!,
+                                            imagefile2: profileProvider
+                                                .profiledetails!.data!.realImages![1].image!,
+                                            imagefile3: profileProvider
+                                                .profiledetails!.data!.realImages![2].image!,
+                                            imagefile4: profileProvider
+                                                .profiledetails!.data!.realImages![3].image!,
+                                            imagefile5: profileProvider
+                                                .profiledetails!.data!.realImages![4].image!,
+                                            imagefile6: profileProvider
+                                                .profiledetails!.data!.realImages![5].image!,
+                                            imageid1: profileProvider
+                                                .profiledetails!.data!.realImages![0].id
+                                                .toString(),
+                                            imageid2: profileProvider
+                                                .profiledetails!.data!.realImages![1].id
+                                                .toString(),
+                                            imageid3: profileProvider
+                                                .profiledetails!.data!.realImages![2].id
+                                                .toString(),
+                                            imageid4: profileProvider
+                                                .profiledetails!.data!.realImages![3].id
+                                                .toString(),
+                                            imageid5: profileProvider
+                                                .profiledetails!.data!.realImages![4].id
+                                                .toString(),
+                                            imageid6: profileProvider
+                                                .profiledetails!.data!.realImages![5].id
+                                                .toString(),
+                                          ));
+                                        },
+                                        child: Container(
+                                          height: 130.h,
+                                          margin: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFFDFAFF),
+                                            borderRadius:
+                                                BorderRadius.circular(15.r),
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Positioned.fill(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFFDFAFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(15.r),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:profileProvider
+                                                          .profiledetails!
+                                                          .data!
+                                                          .realImages![5]
+                                                          .image!,
+                                                      fit: BoxFit.cover,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                          Container(child: CircularProgressIndicator(value: downloadProgress.progress),alignment: Alignment.center,),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                             ],
-                          ):Container(),
+                          ):
+                          Container(),
                           !profileProvider
                               .profiledetails!.data!.is_ghost!?
                           InkWell(
@@ -531,34 +757,34 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                               Get.to(PhotoScreen(
                                 isEdit: true,
                                 imagefile1: profileProvider
-                                    .profiledetails!.data!.images![0].image!,
+                                    .profiledetails!.data!.realImages![0].image!,
                                 imagefile2: profileProvider
-                                    .profiledetails!.data!.images![1].image!,
+                                    .profiledetails!.data!.realImages![1].image!,
                                 imagefile3: profileProvider
-                                    .profiledetails!.data!.images![2].image!,
+                                    .profiledetails!.data!.realImages![2].image!,
                                 imagefile4: profileProvider
-                                    .profiledetails!.data!.images![3].image!,
+                                    .profiledetails!.data!.realImages![3].image!,
                                 imagefile5: profileProvider
-                                    .profiledetails!.data!.images![4].image!,
+                                    .profiledetails!.data!.realImages![4].image!,
                                 imagefile6: profileProvider
-                                    .profiledetails!.data!.images![5].image!,
+                                    .profiledetails!.data!.realImages![5].image!,
                                 imageid1: profileProvider
-                                    .profiledetails!.data!.images![0].id
+                                    .profiledetails!.data!.realImages![0].id
                                     .toString(),
                                 imageid2: profileProvider
-                                    .profiledetails!.data!.images![1].id
+                                    .profiledetails!.data!.realImages![1].id
                                     .toString(),
                                 imageid3: profileProvider
-                                    .profiledetails!.data!.images![2].id
+                                    .profiledetails!.data!.realImages![2].id
                                     .toString(),
                                 imageid4: profileProvider
-                                    .profiledetails!.data!.images![3].id
+                                    .profiledetails!.data!.realImages![3].id
                                     .toString(),
                                 imageid5: profileProvider
-                                    .profiledetails!.data!.images![4].id
+                                    .profiledetails!.data!.realImages![4].id
                                     .toString(),
                                 imageid6: profileProvider
-                                    .profiledetails!.data!.images![5].id
+                                    .profiledetails!.data!.realImages![5].id
                                     .toString(),
                               ));
                             },
@@ -647,7 +873,10 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                                         SizedBox(
                                           height: 8.h,
                                         ),
-                                        (profileProvider.profiledetails!.data!.biography!="")?addRegularText("${profileProvider.profiledetails!.data!.biography}", 12, Color(0xFFAB60ED)):Container()
+                                        (profileProvider.profiledetails!.data!.biography!="")?
+                                        SizedBox(
+                                            width: Get.width*0.8,
+                                            child: addRegularText("${profileProvider.profiledetails!.data!.biography}", 12, Color(0xFFAB60ED))):Container()
                                       ],
                                     ),
                                     SvgPicture.asset(

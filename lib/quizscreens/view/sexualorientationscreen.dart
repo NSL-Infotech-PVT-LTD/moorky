@@ -300,7 +300,7 @@ bool isLoad=false;
                       Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
                       SizedBox(height: 5.h,),
                       Container(
-                        height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
+                        height: 8.h,width: 140.w,),
                     ],
                   ),
                 ),
@@ -360,7 +360,7 @@ bool isLoad=false;
                         Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
                         SizedBox(height: 5.h,),
                         Container(
-                          height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
+                          height: 8.h,width: 140.w,),
                       ],
                     ),
                   ),

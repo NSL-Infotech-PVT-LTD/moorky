@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class _AccountScreenState extends State<AccountScreen> {
           children: [
             Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
             Container(
-              height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
+              height: 8.h,width: 140.w,),
           ],
         ),
       ),
@@ -318,11 +319,13 @@ class _AccountScreenState extends State<AccountScreen> {
                                                                   username="";
                                                                   prefrenceClear();
                                                                   try {
-                                                                    await ZIM.getInstance()!.logout();
+                                                                    await ZIM.getInstance()!.
+                                                                    logout();
                                                                     UserModel.release();
                                                                     final prefs = await SharedPreferences.getInstance();
                                                                     await prefs.setString('userID', '');
                                                                     await prefs.setString('userName', '');
+                                                                    prefs.clear();
                                                                     Navigator.of(context)
                                                                         .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
                                                                   } on PlatformException catch (onError) {
@@ -395,6 +398,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 });
 
                                 bool issignout=await DashboardRepository.signOut(preferences!.getString("accesstoken").toString());
+                                FirebaseAuth.instance.signOut();
                                 if(issignout)
                                   {
                                     setState(() {

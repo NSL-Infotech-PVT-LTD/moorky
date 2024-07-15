@@ -66,9 +66,9 @@ class _InterstedScreenState extends State<InterstedScreen> {
             children: [
               Align(child: Image.asset("assets/images/inter1.png",fit: BoxFit.fill,height: 145,width: 108,),alignment: Alignment.topLeft,),
               Align(child: Image.asset("assets/images/inter2.png",fit: BoxFit.fill,height: 145,width: 108,),alignment: Alignment.topRight,),
-              Align(child: Image.asset("assets/images/inter3.png",fit: BoxFit.fill,height: 145,width: 108,),alignment: Alignment.bottomLeft,),
+              Align(child: Image.asset("assets/images/inter3.png",fit: BoxFit.fill,height: 155,width: 128,),alignment: Alignment.bottomLeft,),
               Align(child: Container(
-                margin: EdgeInsets.all(15),
+                margin: EdgeInsets.symmetric(vertical: 15,horizontal: 10),
                   child: Image.asset("assets/images/moorky2.png",width: 150,)),alignment: Alignment.bottomRight,),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -76,7 +76,7 @@ class _InterstedScreenState extends State<InterstedScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
                         children: [
                           InkWell(
@@ -458,13 +458,13 @@ class _InterstedScreenState extends State<InterstedScreen> {
 
                       },
                       child: Container(
-                          height: 40.h,
-                          width: MediaQuery.of(context).size.width*0.30,
+                          height: 50.h,
+                          width: MediaQuery.of(context).size.width*0.35,
                           decoration: BoxDecoration(borderRadius:
                           BorderRadius.all(Radius.circular(20.r)),border: Border.all(color: Colorss.mainColor,
                               width: 1.5)),
                           alignment: Alignment.center,
-                          child: addMediumText(AppLocalizations.of(context)!.continues,10, Colorss.mainColor)
+                          child: addMediumText(AppLocalizations.of(context)!.continues,15, Colorss.mainColor)
                       )
                     ):Container(child: CircularProgressIndicator(),alignment: Alignment.topCenter,):Container(
                         height: 40.h,

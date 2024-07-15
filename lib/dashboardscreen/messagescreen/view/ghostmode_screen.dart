@@ -64,13 +64,13 @@ class _GhostMode_ScreenState extends State<GhostMode_Screen> {
               color: Colorss.mainColor,
             )),
       ),
-      bottomNavigationBar: Container(
-        height: 9.h,
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(bottom: 15.h),
-        child: Container(
-          height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 9.h,
+      //   alignment: Alignment.bottomCenter,
+      //   margin: EdgeInsets.only(bottom: 15.h),
+      //   child: Container(
+      //     height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colorss.mainColor,borderRadius: BorderRadius.circular(25.r)),),
+      // ),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(20),

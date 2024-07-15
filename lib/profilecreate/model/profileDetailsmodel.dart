@@ -117,6 +117,7 @@ class Data {
     this.gender_id,
     this.date_with_id,
     this.userfilterdata,
+    this.realImages,
   });
 
   dynamic id;
@@ -185,6 +186,7 @@ class Data {
   bool? ghost_profile;
   bool? subscription;
   List<Images>? images;
+  List<Images>? realImages;
   List<Interest>? interests;
   List<UserQuestion>? userQuestions;
   List<Language>? languages;
@@ -303,6 +305,7 @@ class Data {
     latestMessage: json["latest_message"] == null ? null : json["latest_message"],
     latestMessageAt: json["latest_message_at"] == null ? null : json["latest_message_at"],
     images: json["images"] == null ? null : List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
+    realImages: json["real_images"] == null ? null : List<Images>.from(json["real_images"].map((x) => Images.fromJson(x))),
     interests: json["interests"] == null ? null : List<Interest>.from(json["interests"].map((x) => Interest.fromJson(x))),
     userQuestions: json["user_questions"] == null ? null : List<UserQuestion>.from(json["user_questions"].map((x) => UserQuestion.fromJson(x))),
     languages: json["languages"] == null ? null : List<Language>.from(json["languages"].map((x) => Language.fromJson(x))),
@@ -398,6 +401,7 @@ class Data {
     "latest_message": latestMessage == null ? null : latestMessage,
     "latest_message_at": latestMessageAt == null ? null : latestMessageAt,
     "images": images == null ? null : List<dynamic>.from(images!.map((x) => x.toJson())),
+    "real_images": realImages == null ? null : List<dynamic>.from(realImages!.map((x) => x.toJson())),
     "interests": interests == null ? null : List<dynamic>.from(interests!.map((x) => x.toJson())),
     "user_questions": userQuestions == null ? null : List<dynamic>.from(userQuestions!.map((x) => x.toJson())),
     "languages": languages == null ? null : List<dynamic>.from(languages!.map((x) => x.toJson())),

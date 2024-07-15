@@ -55,10 +55,10 @@ class _SettingScreenState extends State<SettingScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
-            Container(
-              height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
-          ],
-        ),
+          //   Container(
+          //     height: 8.h,width: 140.w,),),
+          // ],
+      ]  ),
       ),
       body: SingleChildScrollView(
         child: Container(

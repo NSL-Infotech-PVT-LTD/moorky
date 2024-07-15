@@ -376,11 +376,11 @@ class _DateofBirthScreenState extends State<DateofBirthScreen> {
                       alignment: Alignment.center,
                       child: addMediumText(AppLocalizations.of(context)!.continues, 14, Color(0xFFC2A3DD))
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 15.h),
-                      child: Container(
-                        height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(25.r)),),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(bottom: 15.h),
+                    //   child: Container(
+                    //     height: 8.h,width: 140.w,decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(25.r)),),
+                    // ),
                   ],
                 ),
               ],

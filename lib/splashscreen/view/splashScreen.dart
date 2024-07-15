@@ -210,12 +210,13 @@ class _SplashScreenState extends State<SplashScreen> {
             }
             try {
               String token = await TokenPlugin.makeToken(userInfo.userID);
-              await ZIM.getInstance()!.login(userInfo, token);
+
               _countTimer?.cancel();
               _countTimer = null;
               UserModel.shared().userInfo = userInfo;
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => DashBoardScreen(pageIndex: 1,isNotification: false,)));
+              await ZIM.getInstance()!.login(userInfo, token);
             } on PlatformException catch (onError) {
               _countTimer?.cancel();
               _countTimer = null;
@@ -252,6 +253,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
+        // child: VideoPlayer(_controller!)
         child: VideoPlayer(_controller!)
       ),
     );

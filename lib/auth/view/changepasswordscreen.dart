@@ -113,6 +113,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 localprovider.changeLocaleSettings("");
                 username="";
                 prefrenceClear();
+                DashboardProvider dashboardProvider=Provider.of<DashboardProvider>(context,listen: false);
+              dashboardProvider.clearShowCase();
                 Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route route) => false);
                 setState(() {
                   role="";
@@ -153,7 +155,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             alignment: Alignment.center,
             child: addMediumText(AppLocalizations.of(context)!.submit, 14, Color(0xFFFFFFFF))
         ),
-      ):Container(
+      ):
+      Container(
           height: 70.h,
           margin: EdgeInsets.only(top: 90.h,left: 25.w,right: 25.w,bottom: 120.h),
           decoration: BoxDecoration(

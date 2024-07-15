@@ -15,6 +15,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moorky/commanWidget/commanwidget.dart';
 import 'package:moorky/constant/color.dart';
+import 'package:moorky/dashboardscreen/campignscreen/view/campignscreen.dart';
 import 'package:moorky/dashboardscreen/view/dashboardscreen.dart';
 import 'package:moorky/premiumscreen/model/premiumplan_model.dart';
 import 'package:moorky/profilecreate/provider/profileprovider.dart';
@@ -173,13 +174,13 @@ class _Premium_ScreenState extends State<Premium_Screen> {
               child: SvgPicture.asset("assets/images/arrowback.svg",fit: BoxFit.scaleDown,))
       ),
       backgroundColor: Colors.white,
-      bottomNavigationBar: Container(
-        height: 40,
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        child: Container(
-          height: 8.h,width: 160.w,decoration: BoxDecoration(color: Color(0xFF6B18C3),borderRadius: BorderRadius.circular(25.r)),),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 40,
+      //   color: Colors.transparent,
+      //   alignment: Alignment.center,
+      //   child: Container(
+      //     height: 8.h,width: 160.w,decoration: BoxDecoration(color: Colors.transparent,borderRadius: BorderRadius.circular(25.r)),),
+      // ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -189,6 +190,8 @@ class _Premium_ScreenState extends State<Premium_Screen> {
                 children: [
                   CarouselSlider(
                     items: planSlider.map((images) {
+                      print("planSlider.length");
+                      print(planSlider.length);
                       return Column(
                         children: [
                           SvgPicture.network(
@@ -347,6 +350,7 @@ class _Premium_ScreenState extends State<Premium_Screen> {
                           {
                             _productLists =settingprovider.skulist;
                           }
+                          print(settingprovider.premiumPlansModel!.subscription!);
                           subscription=settingprovider.premiumPlansModel!.subscription!;
                           if(!subscription)
                           {
@@ -369,7 +373,8 @@ class _Premium_ScreenState extends State<Premium_Screen> {
                           physics: ScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
 
-                            return selectedIndex == index ? Container(
+                            return selectedIndex == index ?
+                            Container(
                               width: 150,
                               child: Stack(
                                 children: [
@@ -444,7 +449,8 @@ class _Premium_ScreenState extends State<Premium_Screen> {
                                   )
                                 ],
                               ),
-                            ) : GestureDetector(
+                            ) :
+                            GestureDetector(
                               onTap: () {
                                 setState(() {
                                   selectedIndex = index;
@@ -539,8 +545,8 @@ class _Premium_ScreenState extends State<Premium_Screen> {
                           },
                         )
                             : Center(child: Text(AppLocalizations.of(context)!
-                            .noplans),) : Center(
-                          child: CircularProgressIndicator(),);
+                            .noplans),) :
+                        shimmerLoadingWidget(context);
                       })
 
               ),
@@ -582,11 +588,12 @@ class _Premium_ScreenState extends State<Premium_Screen> {
               ),
               !isLoad?InkWell(
                 onTap: (){
+
                   print("subscription");
                   print(subscription);
                   print("sku");
                   print(sku);
-                  // _requestPurchase(sku);
+                // _requestPurchase(sku);
                   if(!subscription)
                   {
                     setState(() {
@@ -788,6 +795,7 @@ extension InAPPPurchaseMethods on _Premium_ScreenState {
   }
 
   void _requestPurchase(String apple_id) {
+    print("hdjdjddjdd");
     FlutterInappPurchase.instance.requestPurchase(apple_id);
   }
 }

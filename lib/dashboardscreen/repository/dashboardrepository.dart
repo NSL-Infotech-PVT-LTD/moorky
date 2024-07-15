@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:moorky/auth/view/login_screen.dart';
 import 'package:moorky/constant/app_url.dart';
 import 'package:moorky/dashboardscreen/model/campaigndetailmodel.dart';
 import 'package:moorky/dashboardscreen/model/campaignmodel.dart';
@@ -67,7 +70,9 @@ class DashboardRepository{
     print('dashboard api response ${jsonDecode(response.body)}');
     if(response.statusCode==200)
     {
-      print(jsonDecode(response.body));
+      print("jsonDecode(response.body)=========");
+      print(jsonDecode(response.body).toString());
+      print("jsonDecode(response.body)=========");
       return UserModel.fromJson(jsonDecode(response.body));
     }
     else if(response.statusCode==422)
@@ -79,6 +84,7 @@ class DashboardRepository{
       return UserModel.fromJson(jsonDecode(response.body));
     }
     else{
+      Get.offAll(Login_Screen());
       return throw(Exception("Not A Verify"));
     }
   }
@@ -125,12 +131,16 @@ class DashboardRepository{
       'page': page.toString(),
     };
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    try{
     var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/user/list"),
       body: apiBodyData,
       headers: {
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
       },);
+    print("response.body");
+    print(response.body);
+    print(response.statusCode);
     if(response.statusCode==200)
     {
       liketotalpage=jsonDecode(response.body)['pages'];
@@ -145,10 +155,11 @@ class DashboardRepository{
     {
       return likeUserFromJson(jsonDecode(response.body));
     }
-    else{
-      return throw(Exception("Not A Verify"));
-    }
-  }
+
+  }catch(e){
+      print("sjsjsj$e");
+   return   [UserDatum()];
+    }}
 
 
 
@@ -205,13 +216,16 @@ class DashboardRepository{
       return FilterListModel.fromJson(jsonDecode(response.body));
     }
     else{
+      FilterListModel();
       return throw(Exception("Not A Verify"));
+
     }
   }
 
   static Future<RemainderListModel> getRemainderList(String accesstoken)async{
-    print(accesstoken);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("dssdsds${prefs.getString("lang")}");
     var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/event/reminder-option"),
       headers: {
         "authorization": "Bearer ${accesstoken.toString()}",
@@ -299,12 +313,14 @@ class DashboardRepository{
     // };
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/chat-users/list"),
+
      // body: apiBodyData,
       headers: {
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
       },);
-    print(jsonDecode(response.body));
+    print(accesstoken);
+    print("accesstoken");
     if(response.statusCode==200)
     {
       print(jsonDecode(response.body));
@@ -428,12 +444,13 @@ class DashboardRepository{
       return false;
     }
   }
-
   static Future<bool> eventcreate(String accesstoken,String user_id,String title,String description,String date,String reminder_id,String type)async{
+
     final Map<String, dynamic> apiBodyData = {
       'user_id': user_id.toString(),
       'title': title.toString(),
-      'description': description.toString(),
+      'description':description,
+
       'date': date.toString(),
       'reminder_id': reminder_id.toString(),
       'event_for': type.toString(),
@@ -542,6 +559,7 @@ class DashboardRepository{
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
       },);
+    print(response.statusCode);
     if(response.statusCode==200)
     {
       return UserSwipeModel.fromJson(jsonDecode(response.body));
@@ -572,6 +590,7 @@ class DashboardRepository{
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
       },);
+
     if(response.statusCode==200)
     {
       print(response.body);
@@ -619,6 +638,7 @@ class DashboardRepository{
     }
     else{
       print('api/user/dislike ${response.body.toString()}');
+
       return throw(Exception("Not A Verify"));
     }
   }
@@ -763,11 +783,14 @@ class DashboardRepository{
     }
   }
 
-  static Future<ChatListModel> chatcreate(String accesstoken,String user_id,String type,String message)async{
+  static Future<ChatListModel> chatcreate(String accesstoken,String user_id,String type,String message,
+      {String?groupId})async{
     final Map<String, dynamic> apiBodyData = {
       'user_id': user_id.toString(),
       'message_type': type.toString(),
       'message': message.toString(),
+      "room_data":groupId
+
     };
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/chat/create"),
@@ -776,7 +799,8 @@ class DashboardRepository{
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
       },);
-    print(jsonDecode(response.body));
+    print("apiBodyData");
+    print(apiBodyData);
     if(response.statusCode==200)
     {
       print("hello");
@@ -825,4 +849,29 @@ class DashboardRepository{
       return throw(Exception("Not A Verify"));
     }
   }
+
+static Future<bool>readChat({String? userId, String ?accesstoken})async{
+  final Map<String, dynamic> apiBodyData = {
+    'user_id': userId.toString(),
+
+  };
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/message/readMessages"),
+    body: apiBodyData,
+    headers: {
+      "authorization": "Bearer ${accesstoken.toString()}",
+      "X-localization": "${prefs.getString("lang")}"
+    },);
+
+  print("========????Read Mesaages${response.statusCode}");
+  if(response.statusCode==200)
+  {
+    print("hello");
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
 }

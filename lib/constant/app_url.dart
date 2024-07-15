@@ -4,5 +4,6 @@ class AppUrl{
 
   // new base url
   //static String baseUrl = 'http://manage.moorky.com/';
-  static String baseUrl = 'https://manage.moorky.com/';
+  // static String baseUrl = 'https://manage.moorky.com/';
+  static String baseUrl = 'http://3.211.228.184/';
 }

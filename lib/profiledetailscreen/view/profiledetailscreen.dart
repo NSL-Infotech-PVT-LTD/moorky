@@ -63,6 +63,7 @@ class ProfileDetailScreen extends StatefulWidget {
   final String languages;
   final String usertype;
   final int directchatcount;
+  final int ?index;
   final String profileimage;
   ProfileDetailScreen(
       {
@@ -71,6 +72,7 @@ class ProfileDetailScreen extends StatefulWidget {
         required this.isLike,
         required this.isSearch,
         this.startheigh="",
+        this.index,
         this.endheigh="",
         this.startag="",
         this.endag="",
@@ -114,6 +116,7 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
   bool isdrag=true;
   SharedPreferences? preferences;
   int count = 0;
+  bool isLikeLoading=false;
   Aboutme_Model? aboutme_model;
   List<dynamic> aboutmelist = <dynamic>[];
   @override
@@ -432,10 +435,10 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                 SizedBox(
                                   height: 10.h,
                                 ),
-                                addSemiBoldText(
-                                    "${profileProvider.userprofiledetails!.data!.name} ${AppLocalizations.of(context)!.photos}",
-                                    13,
-                                    Colorss.mainColor),
+                                // addSemiBoldText(
+                                //     "${profileProvider.userprofiledetails!.data!.name} ${AppLocalizations.of(context)!.photos}",
+                                //     13,
+                                //     Colorss.mainColor),
                               ],
                             ),
                           ),
@@ -1215,42 +1218,50 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                                           preferences!.getString("accesstoken")!,
                                                           widget.user_id, "1");
                                                       if (islike.statusCode == 200) {
+                                                        print("============>>>>>>>>>>>>>>>>${widget.isLike}");
                                                         if (widget.isLike) {
+
+                                                          DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                          dashboardprovider.removeUserFromIndex(index:widget.index??0);
                                                           Get.off(
                                                               DashBoardScreen(pageIndex: 1,isNotification: false,));
                                                         } else {
                                                           var dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
-                                                          dashboardprovider.resetStreams();
+                                                         // dashboardprovider.resetStreams();
                                                           if (preferences!.getString("accesstoken") != null) {
-                                                            dashboardprovider.fetchUserList(
-                                                                preferences!.getString("accesstoken").toString(),
-                                                                1,
-                                                                20,
-                                                                widget.startag,
-                                                                widget.endag,
-                                                                widget.datewith,
-                                                                widget.isPremium,
-                                                                widget.type,
-                                                                widget.search,
-                                                                widget.maritals,
-                                                                widget.looking_fors,
-                                                                widget.sexual_orientation,
-                                                                widget.startheigh,
-                                                                widget.endheigh,
-                                                                widget.do_you_drink,
-                                                                widget.do_you_smoke,
-                                                                widget.feel_about_kids,
-                                                                widget.education,
-                                                                widget.introvert_or_extrovert,
-                                                                widget.star_sign,
-                                                                widget.have_pets,
-                                                                widget.religion,
-                                                                widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
-                                                                widget.refresh);
-                                                            dashboardprovider
-                                                                .addUser();
-                                                            Navigator.pop(
-                                                                context);
+                                                            // dashboardprovider.fetchUserList(
+                                                            //     preferences!.getString("accesstoken").toString(),
+                                                            //     1,
+                                                            //     20,
+                                                            //     widget.startag,
+                                                            //     widget.endag,
+                                                            //     widget.datewith,
+                                                            //     widget.isPremium,
+                                                            //     widget.type,
+                                                            //     widget.search,
+                                                            //     widget.maritals,
+                                                            //     widget.looking_fors,
+                                                            //     widget.sexual_orientation,
+                                                            //     widget.startheigh,
+                                                            //     widget.endheigh,
+                                                            //     widget.do_you_drink,
+                                                            //     widget.do_you_smoke,
+                                                            //     widget.feel_about_kids,
+                                                            //     widget.education,
+                                                            //     widget.introvert_or_extrovert,
+                                                            //     widget.star_sign,
+                                                            //     widget.have_pets,
+                                                            //     widget.religion,
+                                                            //     widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
+                                                            //     widget.refresh);
+                                                            // dashboardprovider
+                                                            //     .addUser();
+                                                            // Navigator.pop(
+                                                            //     context);
+                                                            DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                            dashboardprovider.removeUserFromIndex(index:widget.index??0);
+                                                            Get.off(
+                                                                DashBoardScreen(pageIndex: 1,isNotification: false,));
                                                           }
                                                         }
                                                       }
@@ -1260,44 +1271,50 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                                       Get.to(
                                                           Premium_Screen());
                                                     }
-                                                  } else {
-                                                    var islike = await DashboardRepository.userlike(preferences!.getString("accesstoken")!, widget.user_id, "1");
+                                                  }
+                                                  else {  print("============>>>>>>>>>>>>>>>>${widget.isLike}");
+                                                  var islike = await DashboardRepository.userlike(preferences!.getString("accesstoken")!, widget.user_id, "1");
                                                     if (islike.statusCode == 200) {
-                                                      if (widget.isLike) {
+                                                                                                 if (widget.isLike) {
+                                                        DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                        dashboardprovider.userModelList.removeAt(widget.index??0);
                                                         Get.off(
                                                             DashBoardScreen(pageIndex: 1,isNotification: false,));
                                                       } else {
-                                                        var dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
-                                                        dashboardprovider.resetStreams();
-                                                        if (preferences!.getString("accesstoken") != null) {
-                                                          dashboardprovider.fetchUserList(
-                                                              preferences!.getString("accesstoken").toString(),
-                                                              1,
-                                                              20,
-                                                              widget.startag,
-                                                              widget.endag,
-                                                              widget.datewith,
-                                                              widget.isPremium,
-                                                              widget.type,
-                                                              widget.search,
-                                                              widget.maritals,
-                                                              widget.looking_fors,
-                                                              widget.sexual_orientation,
-                                                              widget.startheigh,
-                                                              widget.endheigh,
-                                                              widget.do_you_drink,
-                                                              widget.do_you_smoke,
-                                                              widget.feel_about_kids,
-                                                              widget.education,
-                                                              widget.introvert_or_extrovert,
-                                                              widget.star_sign,
-                                                              widget.have_pets,
-                                                              widget.religion,
-                                                              widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
-                                                              widget.refresh);
-                                                          dashboardprovider.addUser();
-                                                          Navigator.pop(context);
-                                                        }
+                                                        DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                        dashboardprovider.userModelList.removeAt(widget.index??0);
+                                                        Get.off(
+                                                            DashBoardScreen(pageIndex: 1,isNotification: false,));
+                                                        // dashboardprovider.resetStreams();
+                                                        // if (preferences!.getString("accesstoken") != null) {
+                                                        //   dashboardprovider.fetchUserList(
+                                                        //       preferences!.getString("accesstoken").toString(),
+                                                        //       1,
+                                                        //       20,
+                                                        //       widget.startag,
+                                                        //       widget.endag,
+                                                        //       widget.datewith,
+                                                        //       widget.isPremium,
+                                                        //       widget.type,
+                                                        //       widget.search,
+                                                        //       widget.maritals,
+                                                        //       widget.looking_fors,
+                                                        //       widget.sexual_orientation,
+                                                        //       widget.startheigh,
+                                                        //       widget.endheigh,
+                                                        //       widget.do_you_drink,
+                                                        //       widget.do_you_smoke,
+                                                        //       widget.feel_about_kids,
+                                                        //       widget.education,
+                                                        //       widget.introvert_or_extrovert,
+                                                        //       widget.star_sign,
+                                                        //       widget.have_pets,
+                                                        //       widget.religion,
+                                                        //       widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
+                                                        //       widget.refresh);
+                                                        //   dashboardprovider.addUser();
+                                                        //   Navigator.pop(context);
+                                                        // }
                                                       }
                                                     }
                                                   }
@@ -1334,13 +1351,21 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                               SizedBox(
                                                 width: 20.w,
                                               ),
-                                              GestureDetector(
+                                              isLikeLoading?CircularProgressIndicator():  GestureDetector(
                                                 onTap: () async {
+                                                  print("usertype");
+                                                  print(usertype);
                                                   if (usertype == "normal") {
                                                     var proprovider = Provider.of<ProfileProvider>(context, listen: false);
                                                     if (proprovider.swipecount < 100) {
+                                                      isLikeLoading=true;
+                                                      setState((){});
                                                       var islike = await DashboardRepository.userlike(
                                                           preferences!.getString("accesstoken")!, widget.user_id, "0");
+                                                      print("islike.statusCode");
+                                                      print(widget.isLike);
+                                                      isLikeLoading=false;
+                                                      setState((){});
                                                       if (islike.statusCode ==
                                                           200) {
                                                         if (widget.isLike) {
@@ -1382,55 +1407,79 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                                           //   Navigator.pop(
                                                           //       context);
                                                           // }
-
+                                                          DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                          dashboardprovider.removeUserFromIndex(index:widget.index??0);
                                                           Get.off(
                                                               DashBoardScreen(pageIndex: 1,isNotification: false,));
-                                                        } else {
-                                                          var dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
-                                                          dashboardprovider.resetStreams();
-                                                          if (preferences!.getString("accesstoken") != null) {
-                                                            dashboardprovider.fetchUserList(
-                                                                preferences!.getString("accesstoken").toString(),
-                                                                1,
-                                                                20,
-                                                                widget.startag,
-                                                                widget.endag,
-                                                                widget.datewith,
-                                                                widget.isPremium,
-                                                                widget.type,
-                                                                widget.search,
-                                                                widget.maritals,
-                                                                widget.looking_fors,
-                                                                widget.sexual_orientation,
-                                                                widget.startheigh,
-                                                                widget.endheigh,
-                                                                widget.do_you_drink,
-                                                                widget.do_you_smoke,
-                                                                widget.feel_about_kids,
-                                                                widget.education,
-                                                                widget.introvert_or_extrovert,
-                                                                widget.star_sign,
-                                                                widget.have_pets,
-                                                                widget.religion,
-                                                                widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
-                                                                widget.refresh);
-                                                            dashboardprovider
-                                                                .addUser();
-                                                            Navigator.pop(
-                                                                context);
-                                                          }
+                                                        }
+                                                        else {
+                                                          DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                          dashboardprovider.removeUserFromIndex(index:widget.index??0);
+
+                                                          // Get.off(
+                                                          //     DashBoardScreen(pageIndex: 1,isNotification: false,));
+                                                          Get.off(
+                                                              DashBoardScreen(pageIndex: 1,isNotification: false,));
+                                                          // var dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                          // dashboardprovider.resetStreams();
+                                                          // if (preferences!.getString("accesstoken") != null) {
+                                                          //   dashboardprovider.fetchUserList(
+                                                          //       preferences!.getString("accesstoken").toString(),
+                                                          //       1,
+                                                          //       20,
+                                                          //       widget.startag,
+                                                          //       widget.endag,
+                                                          //       widget.datewith,
+                                                          //       widget.isPremium,
+                                                          //       widget.type,
+                                                          //       widget.search,
+                                                          //       widget.maritals,
+                                                          //       widget.looking_fors,
+                                                          //       widget.sexual_orientation,
+                                                          //       widget.startheigh,
+                                                          //       widget.endheigh,
+                                                          //       widget.do_you_drink,
+                                                          //       widget.do_you_smoke,
+                                                          //       widget.feel_about_kids,
+                                                          //       widget.education,
+                                                          //       widget.introvert_or_extrovert,
+                                                          //       widget.star_sign,
+                                                          //       widget.have_pets,
+                                                          //       widget.religion,
+                                                          //       widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
+                                                          //       widget.refresh);
+                                                          //   dashboardprovider
+                                                          //       .addUser();
+                                                          //   Navigator.pop(
+                                                          //       context);
+                                                          // }
                                                         }
                                                       }
-                                                    } else {
+                                                      else{
+                                                        showSnakbar("${islike.message}", context);
+                                                        Navigator.pop(
+                                                            context);
+                                                      }
+                                                    }
+                                                    else {
+
                                                       Navigator.pop(
                                                           context);
                                                       Get.to(
                                                           Premium_Screen());
                                                     }
-                                                  } else {
+                                                  }
+                                                  else {
+                                                    isLikeLoading=true;
+                                                    setState((){});
                                                     var islike = await DashboardRepository.userlike(preferences!.getString("accesstoken")!, widget.user_id, "0");
+                                                   print(islike);
+                                                    isLikeLoading=false;
+                                                    setState((){});
                                                     if (islike.statusCode == 200) {
                                                       if (widget.isLike) {
+                                                        DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                        dashboardprovider.removeUserFromIndex(index:widget.index??0);
                                                         // if (preferences!.getString("accesstoken") != null) {
                                                         //   var profileprovider = Provider.of<
                                                         //           ProfileProvider>(
@@ -1470,59 +1519,67 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
                                                         //   Navigator.pop(
                                                         //       context);
                                                         // }
+                                                        Navigator.pop(
+                                                            context);
 
-
-                                                        Get.off(
-                                                            DashBoardScreen(pageIndex: 1,isNotification: false,));
-                                                      } else {
-                                                        var dashboardprovider =
-                                                            Provider.of<
-                                                                    DashboardProvider>(
-                                                                context,
-                                                                listen:
-                                                                    false);
-                                                        dashboardprovider
-                                                            .resetStreams();
-                                                        if (preferences!
-                                                                .getString(
-                                                                    "accesstoken") !=
-                                                            null) {
-                                                          print(
-                                                              "sdgfahs");
-                                                          print(preferences!
-                                                              .getString(
-                                                                  "accesstoken"));
-                                                          dashboardprovider.fetchUserList(
-                                                              preferences!.getString("accesstoken").toString(),
-                                                              1,
-                                                              20,
-                                                              widget.startag,
-                                                              widget.endag,
-                                                              widget.datewith,
-                                                              widget.isPremium,
-                                                              widget.type,
-                                                              widget.search,
-                                                              widget.maritals,
-                                                              widget.looking_fors,
-                                                              widget.sexual_orientation,
-                                                              widget.startheigh,
-                                                              widget.endheigh,
-                                                              widget.do_you_drink,
-                                                              widget.do_you_smoke,
-                                                              widget.feel_about_kids,
-                                                              widget.education,
-                                                              widget.introvert_or_extrovert,
-                                                              widget.star_sign,
-                                                              widget.have_pets,
-                                                              widget.religion,
-                                                              widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
-                                                              widget.refresh);
-                                                          dashboardprovider
-                                                              .addUser();
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
+                                                        // Get.off(
+                                                        //     DashBoardScreen(pageIndex: 1,isNotification: false,));
                                                       }
+                                                      else {
+                                                        DashboardProvider?   dashboardprovider = Provider.of<DashboardProvider>(context, listen: false);
+                                                        dashboardprovider.removeUserFromIndex(index:widget.index??0);
+                                                        // var dashboardprovider =
+                                                        //     Provider.of<
+                                                        //             DashboardProvider>(
+                                                        //         context,
+                                                        //         listen:
+                                                        //             false);
+                                                        // dashboardprovider
+                                                        //     .resetStreams();
+                                                        // if (preferences!
+                                                        //         .getString(
+                                                        //             "accesstoken") !=
+                                                        //     null) {
+                                                        //   print(
+                                                        //       "sdgfahs");
+                                                        //   print(preferences!
+                                                        //       .getString(
+                                                        //           "accesstoken"));
+                                                        //   dashboardprovider.fetchUserList(
+                                                        //       preferences!.getString("accesstoken").toString(),
+                                                        //       1,
+                                                        //       20,
+                                                        //       widget.startag,
+                                                        //       widget.endag,
+                                                        //       widget.datewith,
+                                                        //       widget.isPremium,
+                                                        //       widget.type,
+                                                        //       widget.search,
+                                                        //       widget.maritals,
+                                                        //       widget.looking_fors,
+                                                        //       widget.sexual_orientation,
+                                                        //       widget.startheigh,
+                                                        //       widget.endheigh,
+                                                        //       widget.do_you_drink,
+                                                        //       widget.do_you_smoke,
+                                                        //       widget.feel_about_kids,
+                                                        //       widget.education,
+                                                        //       widget.introvert_or_extrovert,
+                                                        //       widget.star_sign,
+                                                        //       widget.have_pets,
+                                                        //       widget.religion,
+                                                        //       widget.languageList.toString().replaceAll("[", "").replaceAll("]", ""),
+                                                        //       widget.refresh);
+                                                        //   dashboardprovider
+                                                        //       .addUser();
+                                                        Navigator.pop(
+                                                            context);
+
+                                                      }
+                                                    }
+                                                    else{
+                                                      Navigator.pop(
+                                                          context);
                                                     }
                                                   }
                                                 },

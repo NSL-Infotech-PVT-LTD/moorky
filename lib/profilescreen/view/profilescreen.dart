@@ -63,7 +63,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       profileprovider.fetchProfileDetails(
           preferences!.getString("accesstoken").toString());
     }
+    preferences = await SharedPreferences.getInstance();
+    var settingprovider = Provider.of<SettingProvider>(context, listen: false);
+    settingprovider.resetPriumiumPlans();
+    if (preferences!.getString("accesstoken") != null) {
+      settingprovider.fetchPremiumPlans(
+          preferences!.getString("accesstoken").toString(),"premium");
+      settingprovider.fetchPremiumList(
+          preferences!.getString("accesstoken").toString(),"premium");
+    }
+    //init
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,21 +114,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        alignment: Alignment.center,
-        height: 10.h,
-        margin: EdgeInsets.only(bottom: 15.h),
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: 8.h,
-            width: 140.w,
-            decoration: BoxDecoration(
-                color: Color(0xFF751ACD),
-                borderRadius: BorderRadius.circular(25.r)),
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   alignment: Alignment.center,
+      //   height: 10.h,
+      //   margin: EdgeInsets.only(bottom: 15.h),
+      //   child: Container(
+      //     alignment: Alignment.bottomCenter,
+      //     child: Container(
+      //       height: 8.h,
+      //       width: 140.w,
+      //       decoration: BoxDecoration(
+      //           color: Color(0xFF751ACD),
+      //           borderRadius: BorderRadius.circular(25.r)),
+      //     ),
+      //   ),
+      // ),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -278,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       .profiledetails!.data!.profile_image!
                       .toString());
                 }
-                print(percentage);
+
                 return profileProvider.profiledetails?.data != null
                     ? Column(
                   children: [
@@ -289,24 +300,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           alignment: Alignment.topCenter,
                           child: CircularPercentIndicator(
                             radius: 60.0,
-                            lineWidth: 3.0,
+                            lineWidth: 0.0,
+                            // lineWidth: 3.0,
                             animation: true,
                             backgroundColor: Colors.transparent,
                             percent:
                             double.parse(percentage.toStringAsFixed(1)),
                             reverse: true,
-                            center: CachedNetworkImage(
-                              imageUrl: profileProvider
-                                  .profiledetails!.data!.profile_image!
-                                  .toString(),
-                              fit: BoxFit.cover,
-                              imageBuilder: (context, imageProvider) =>
-                                  CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 57.0,
-                                  ),
+                            center: GestureDetector(
+                              onTap: (){
+                                Get.to(EditprofileScreen(
+                                  viewprofile: false,
+                                  percentage:
+                                  (percentage * 100).toStringAsFixed(0),
+                                ));
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: profileProvider
+                                    .profiledetails!.data!.profile_image!
+                                    .toString(),
+                                fit: BoxFit.cover,
+                                imageBuilder: (context, imageProvider) =>
+                                    CircleAvatar(
+                                      backgroundImage: imageProvider,
+                                      radius: 57.0,
+                                    ),
+                              ),
                             ),
-                            progressColor: Colorss.mainColor,
+                            // progressColor: Colorss.mainColor,
+                            progressColor: Colors.transparent,
                           ),
                         ),
                       ],
@@ -333,118 +355,125 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: 24,
                           color: Colorss.mainColor),
                     ),
-                    (percentage * 100).toStringAsFixed(0) != "100"
-                        ? InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () {
-                        Get.to(EditprofileScreen(
-                          viewprofile: false,
-                          percentage:
-                          (percentage * 100).toStringAsFixed(0),
-                        ));
-                      },
-                      child: Container(
-                        height: 30.h,
-                        margin: EdgeInsets.only(top: 20.h),
-                        width: 130.w,
-                        decoration: BoxDecoration(
-                            color: Color(0xFFC2A3DD),
-                            borderRadius: BorderRadius.circular(50.r)),
-                        alignment: Alignment.center,
-                        child: Text(
-                            "%${(percentage * 100).toStringAsFixed(0)} ${AppLocalizations.of(context)!.complete}",
-                            textScaleFactor: 1.0,
-                            style: TextStyle(
-                                color: Color(0xFFFFFFFF),
-                                fontSize: 12)),
-                      ),
-                    )
-                        : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
+                    // (percentage * 100).toStringAsFixed(0) != "100"
+                    //     ? InkWell(
+                    //   splashColor: Colors.transparent,
+                    //   focusColor: Colors.transparent,
+                    //   hoverColor: Colors.transparent,
+                    //   highlightColor: Colors.transparent,
+                    //   onTap: () {
+                    //     Get.to(EditprofileScreen(
+                    //       viewprofile: false,
+                    //       percentage:
+                    //       (percentage * 100).toStringAsFixed(0),
+                    //     ));
+                    //   },
+                    //   child: Container(
+                    //     height: 30.h,
+                    //     margin: EdgeInsets.only(top: 20.h),
+                    //     width: 130.w,
+                    //     decoration: BoxDecoration(
+                    //         color: Color(0xFFC2A3DD),
+                    //         borderRadius: BorderRadius.circular(50.r)),
+                    //     alignment: Alignment.center,
+                    //     child: Text(
+                    //         "%${(percentage * 100).toStringAsFixed(0)} ${AppLocalizations.of(context)!.complete}",
+                    //         textScaleFactor: 1.0,
+                    //         style: TextStyle(
+                    //             color: Color(0xFFFFFFFF),
+                    //             fontSize: 12)),
+                    //   ),
+                    // )
+                    //     : Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     InkWell(
+                    //       splashColor: Colors.transparent,
+                    //       focusColor: Colors.transparent,
+                    //       hoverColor: Colors.transparent,
+                    //       highlightColor: Colors.transparent,
+                    //       onTap: () {
+                    //         Get.to(EditprofileScreen(
+                    //           viewprofile: true,
+                    //           percentage:
+                    //           (percentage * 100).toStringAsFixed(0),
+                    //         ));
+                    //       },
+                    //       child: Container(
+                    //         height: 30.h,
+                    //         margin: EdgeInsets.only(top: 20.h),
+                    //         padding: EdgeInsets.symmetric(
+                    //             horizontal: 10, vertical: 5),
+                    //         decoration: BoxDecoration(
+                    //             color: Colorss.mainColor,
+                    //             borderRadius:
+                    //             BorderRadius.circular(50.r)),
+                    //         alignment: Alignment.center,
+                    //         child: Text(
+                    //             AppLocalizations.of(context)!
+                    //                 .viewprofile,
+                    //             textScaleFactor: 1.0,
+                    //             style: TextStyle(
+                    //                 color: Color(0xFFFFFFFF),
+                    //                 fontSize: 12)),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                   Consumer<SettingProvider>(
+                     builder: (context,settingprovider,child) {
+                         if(settingprovider.premiumPlansModel?.subscription==false) {
+                           return GestureDetector(
                           onTap: () {
-                            Get.to(EditprofileScreen(
-                              viewprofile: true,
-                              percentage:
-                              (percentage * 100).toStringAsFixed(0),
-                            ));
+                            Get.to(Premium_Screen());
                           },
                           child: Container(
-                            height: 30.h,
-                            margin: EdgeInsets.only(top: 20.h),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
+                            height: 70.h,
+                            margin: EdgeInsets.only(
+                                top: 40.h, left: 25.w, right: 25.w),
+                            width: MediaQuery.of(context).size.width * 0.90,
                             decoration: BoxDecoration(
-                                color: Colorss.mainColor,
-                                borderRadius:
-                                BorderRadius.circular(50.r)),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: <Color>[
+                                    Color(0xFF570084),
+                                    Color(0xFFA33BE5)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(50.r)),
                             alignment: Alignment.center,
-                            child: Text(
-                                AppLocalizations.of(context)!
-                                    .viewprofile,
-                                textScaleFactor: 1.0,
-                                style: TextStyle(
-                                    color: Color(0xFFFFFFFF),
-                                    fontSize: 12)),
-                          ),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(Premium_Screen());
-                      },
-                      child: Container(
-                        height: 70.h,
-                        margin: EdgeInsets.only(
-                            top: 40.h, left: 25.w, right: 25.w),
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: <Color>[
-                                Color(0xFF570084),
-                                Color(0xFFA33BE5)
-                              ],
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 30.0.w, right: 15.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/images/slike.svg",
+                                    fit: BoxFit.scaleDown,
+                                    height: 30.h,
+                                    width: 25.w,
+                                  ),
+                                  addMediumText(
+                                      AppLocalizations.of(context)!
+                                          .getmoorkypremium
+                                          .toUpperCase(),
+                                      14,
+                                      Colors.white),
+                                  SvgPicture.asset(
+                                    "assets/images/arrowforword.svg",
+                                    height: 15.h,
+                                    width: 15.w,
+                                  ),
+                                ],
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(50.r)),
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30.0.w, right: 15.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/slike.svg",
-                                fit: BoxFit.scaleDown,
-                                height: 30.h,
-                                width: 25.w,
-                              ),
-                              addMediumText(
-                                  AppLocalizations.of(context)!
-                                      .getmoorkypremium
-                                      .toUpperCase(),
-                                  14,
-                                  Colors.white),
-                              SvgPicture.asset(
-                                "assets/images/arrowforword.svg",
-                                height: 15.h,
-                                width: 15.w,
-                              ),
-                            ],
                           ),
-                        ),
-                      ),
-                    ),
+                        );
+                         }
+                         return SizedBox.shrink();
+                     }
+                   ),
                     SizedBox(
                       height: 60.h,
                     ),
@@ -622,7 +651,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           !profileProvider.activemonogomy
                               ? GestureDetector(
                             onTap: () {
-                              Get.to(MessageScreen(index: 1));
+                              Get.to(MessageScreen(index: 1,showIcon:true));
                             },
                             child: Row(
                               mainAxisAlignment:

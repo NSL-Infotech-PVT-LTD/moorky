@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,11 +86,13 @@ class _EmailSignIn_ScreenState extends State<EmailSignIn_Screen> {
                     isLoad=true;
                   });
                   var passwordmodel=await auth.emailsignup(email, password,"signin");
+
                   if(passwordmodel.statusCode==200)
                   {
                     setState(() {
                       isLoad=false;
                     });
+                    signInWithEmailAndPassword(email,"12345678");
                     preferences!.setString("accesstoken",passwordmodel.data!.accessToken!);
                     String? token = await FirebaseMessaging.instance.getToken();
                     print("my device token");
@@ -105,14 +109,16 @@ class _EmailSignIn_ScreenState extends State<EmailSignIn_Screen> {
                             ZIMUserInfo userInfo = ZIMUserInfo();
                             userInfo.userID=model.data!.id.toString();
                             userInfo.userName=model.data!.name.toString();
-                            await ZIM.getInstance()!.login(userInfo);
-                            Navigator.of(context).pop;
+                            // await ZIM.getInstance()!.login(userInfo);
+                            // Navigator.of(context).pop;
                             print('success');
                             UserModel.shared().userInfo = userInfo;
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.setString('userID', model.data!.id.toString());
                             await prefs.setString('userName', model.data!.name.toString());
                             preferences!.setString("realphoto","realphoto");
+
+
                             Navigator.push(context,
                                 MaterialPageRoute(builder:
                                     (context) =>
@@ -367,5 +373,113 @@ class _EmailSignIn_ScreenState extends State<EmailSignIn_Screen> {
       ),
     );
   }
+  Future<String?> signInWithEmailAndPassword(String email,String password) async {
+    String errorMessage;
+    User? user;
+    FirebaseFirestore firebasStorage=  FirebaseFirestore.instance;
+    try {
+
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email, password: password);
+      user = userCredential.user;
+      preferences!.setString("email",email);
+
+      if(user!.uid.isNotEmpty){
+        if (user != null) {
+          print("hrlooooo");
+          // Check is already sign up
+          final QuerySnapshot result =
+          await firebasStorage.collection('users').where('id', isEqualTo: user.uid).get();
+          final List < DocumentSnapshot > documents = result.docs;
+          print("========..........${documents.length}");
+          if (documents.length == 0) {
+            // Update data to server if new user
+            firebasStorage.collection('users').doc(user.uid).set(
+                { 'nickname':email, 'photoUrl': user.photoURL, 'id': user.uid });
+          }
+        }
+
+        return 'Success';
+      }
+
+    }
+    on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+        case "account-exists-with-different-credential":
+        case "email-already-in-use":
+          errorMessage = "Email already used. Go to login page.";
+          break;
+        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
+          errorMessage =  "Wrong email/password combination.";
+          break;
+        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
+          errorMessage = "No user found with this email.";
+          print("herererer");
+          createAccountWithEmail(email, "12345678");
+          break;
+        case "ERROR_USER_DISABLED":
+        case "user-disabled":
+          errorMessage = "User disabled.";
+          break;
+        case "ERROR_TOO_MANY_REQUESTS":
+        case "operation-not-allowed":
+          errorMessage = "Too many requests to log into this account.";
+          break;
+        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
+          errorMessage = "Server error, please try again later.";
+          break;
+        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
+          errorMessage =  "Email address is invalid.";
+          break;
+        default:
+          errorMessage =  "Login failed. Please try again.";
+          break;
+      }
+
+      return errorMessage;
+    }
+
+    return null;
+
+  }
+  Future<String?> createAccountWithEmail(String email,String password) async{
+    String errorMessage;
+    User? user;
+    FirebaseFirestore firebasStorage=  FirebaseFirestore.instance;
+    try{
+
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      user = userCredential.user;
+      if(user!.uid.isNotEmpty){
+
+         firebasStorage.collection('users').doc(user.uid).set(
+            {'nickname': email, 'photoUrl': user.photoURL, 'id': user.uid,"isTyping":false});
+
+        return 'Success';
+      }
+    }
+    on FirebaseAuthException catch (error){
+
+      switch (error.code) {
+        case "EMAIL_ALREADY_IN_USE":
+        case "email-already-in-use":
+          errorMessage = "Email already used. Go to login page.";
+          break;
+        default:
+          errorMessage =  "Login failed. Please try again.";
+          break;
+      }
+
+      return errorMessage;
+    }
+
+    return null;
+  }
+
 }
 

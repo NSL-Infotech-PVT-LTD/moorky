@@ -78,7 +78,8 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: Column(
             children: [
-              !updateevent?!widget.isEdit?InkWell(
+              !updateevent?!widget.isEdit?
+              InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
@@ -114,7 +115,8 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                       ],
                     )
                 ),
-              ):InkWell(
+              ):
+              InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
@@ -169,7 +171,8 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                       ],
                     )
                 ),
-              ):InkWell(
+              ):
+              InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
                 hoverColor: Colors.transparent,
@@ -227,8 +230,8 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                   children: [
                     Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
                     SizedBox(height: 5.h,),
-                    Container(
-                      height: 8.h,width: 160.w,decoration: BoxDecoration(color: Color(0xFF000000),borderRadius: BorderRadius.circular(25.r)),),
+                    // Container(
+                    //   height: 8.h,width: 160.w,decoration: BoxDecoration(color: Color(0xFF000000),borderRadius: BorderRadius.circular(25.r)),),
                   ],
                 ),
               ),
@@ -343,7 +346,7 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                         children: [
                           SvgPicture.asset("assets/images/watchs.svg",fit: BoxFit.scaleDown,),
                           SizedBox(width: 10,),
-                          !updateevent?!widget.isEdit?addRegularText(widget.date, 12, Colors.white):
+                          !updateevent?!widget.isEdit?addRegularText(widget.date, 14, Colors.white):
                           GestureDetector(
                               onTap: (){
                                 selectDate(context);
@@ -351,7 +354,7 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                               child: Container(
                                 height: 40.h,
                                   alignment: Alignment.center,
-                                  child: addRegularText(widget.date, 12, Colors.white))):GestureDetector(
+                                  child: addRegularText(widget.date, 14, Colors.white))):GestureDetector(
                               onTap: (){
                                 selectDate(context);
                               },
@@ -363,13 +366,13 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                   ),
                 ),
               ),
-              SizedBox(height: 100.h,),
+              SizedBox(height: 30.h,),
               Container(
-                padding: EdgeInsets.all(28),
+                padding: EdgeInsets.symmetric(horizontal: 28,vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    addBoldText(AppLocalizations.of(context)!.remainder, 14, Colorss.mainColor),
+                    addBoldText(AppLocalizations.of(context)!.remainder, 16, Colorss.mainColor),
                     SizedBox(height: 10.h,),
                     !updateevent?!widget.isEdit?Container(
                       height: 40,
@@ -381,12 +384,12 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                               isExpanded: true,
                               disabledHint: Text(widget.remainder),
                               hint: Container(
-                                  child: addMediumText(widget.remainder, 10, Color(0xFF15294B))
+                                  child: addMediumText(widget.remainder, 13, Color(0xFF15294B))
                               ),
                               items: profileprovider.remainderListModel!.data!
                                   .map((item) => DropdownMenuItem<String>(
                                 value: item.title.toString(),
-                                child: addMediumText(item.title.toString(), 10, Color(0xFF7118C5)),
+                                child: addMediumText(item.title.toString(), 13, Color(0xFF7118C5)),
                               ))
                                   .toList(),
                               value: selectedValue,
@@ -401,9 +404,11 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                               scrollbarAlwaysShow: true,
                               offset: const Offset(-20, 0),
                             ),
-                          ):Center(child: Text(AppLocalizations.of(context)!.noremainderfound),)
+                          ):
+                          Center(child: Text(AppLocalizations.of(context)!.noremainderfound),)
                       ),
-                    ):Container(
+                    ):
+                    Container(
                       height: 40,
                       width: 150,
                       child: Consumer<DashboardProvider>(
@@ -412,12 +417,12 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                             child: DropdownButton2(
                               isExpanded: true,
                               hint: Container(
-                                  child: addMediumText(widget.remainder, 10, Color(0xFF15294B))
+                                  child: addMediumText(widget.remainder, 13, Color(0xFF15294B))
                               ),
                               items: profileprovider.remainderListModel!.data!
                                   .map((item) => DropdownMenuItem<String>(
                                 value: item.title.toString(),
-                                child: addMediumText(item.title.toString(), 10, Color(0xFF7118C5)),
+                                child: addMediumText(item.title.toString(), 13, Color(0xFF7118C5)),
                               ))
                                   .toList(),
                               value: selectedValue,
@@ -446,7 +451,8 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                             ),
                           ):Center(child: Text(AppLocalizations.of(context)!.noremainderfound),)
                       ),
-                    ):Container(
+                    ):
+                    Container(
                       height: 40,
                       width: 150,
                       child: Consumer<DashboardProvider>(
@@ -455,12 +461,12 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                             child: DropdownButton2(
                               isExpanded: true,
                               hint: Container(
-                                  child: addMediumText(widget.remainder, 10, Color(0xFF15294B))
+                                  child: addMediumText(widget.remainder, 13, Color(0xFF15294B))
                               ),
                               items: profileprovider.remainderListModel!.data!
                                   .map((item) => DropdownMenuItem<String>(
                                 value: item.title.toString(),
-                                child: addMediumText(item.title.toString(), 10, Color(0xFF7118C5)),
+                                child: addMediumText(item.title.toString(), 13, Color(0xFF7118C5)),
                               ))
                                   .toList(),
                               value: selectedValue,
@@ -496,7 +502,7 @@ class _CustomizationCalendar_ScreenState extends State<CustomizationCalendar_Scr
                     //     Icon(Icons.keyboard_arrow_down,size: 16,color: Color(0xFF7C7B7B),)
                     //   ],
                     // ),
-                    SizedBox(height: 50.h,),
+                    SizedBox(height: 40.h,),
                     addSemiBoldText(AppLocalizations.of(context)!.description, 14, Colorss.mainColor),
                     SizedBox(height: 10.h,),
                     !updateevent?!widget.isEdit ? addRegularText(widget.description, 10, Color(0xFF999999)):

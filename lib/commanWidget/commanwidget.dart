@@ -150,7 +150,7 @@ Text addRegularText(text,double fontsize,color){
 
 }
 Text addCenterRegularText(text,double fontsize,color){
-  return Text(text,textScaleFactor:1.0,
+  return Text(text??"",textScaleFactor:1.0,
     textAlign: TextAlign.center,
     style: GoogleFonts.poppins(
       fontWeight: FontWeight.w400,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,11 +68,12 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen> {
     return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
   Future<void> GetAddressFromLatLong(Position position)async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    String? locallang = Platform.localeName;
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude,localeIdentifier: locallang);
     print(placemarks);
     Placemark place = placemarks[0];
-    city = '${place.locality} ${place.subLocality} ${place.subAdministrativeArea} ${place.name} ${place.postalCode}';
-    state = '${place.locality}';
+    city = '${place.locality}';
+    state = '${place.administrativeArea}';
     country = '${place.country}';
     setState(()  {
     });
@@ -147,12 +150,13 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen> {
                               print(position.latitude);
                               latitude=position.latitude.toString();
                               longitude=position.longitude.toString();
-                              List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+                              String? locallang = Platform.localeName;
+                              List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude,localeIdentifier: locallang);
                               print(placemarks);
                               Placemark place = placemarks[0];
 
                               setState(()  {
-                                city = '${place.locality} ${place.subLocality} ${place.subAdministrativeArea} ${place.name} ${place.postalCode}';
+                                city = '${place.locality}';
                                 state = '${place.administrativeArea}';
                                 country = '${place.country}';
                               });
@@ -264,7 +268,7 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen> {
                           Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
                           SizedBox(height: 5.h,),
                           Container(
-                            height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
+                            height: 8.h,width: 140.w,),
                         ],
                       ),
                     ),

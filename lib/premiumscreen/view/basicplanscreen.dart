@@ -14,6 +14,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moorky/commanWidget/commanwidget.dart';
 import 'package:moorky/constant/color.dart';
+import 'package:moorky/dashboardscreen/campignscreen/view/campignscreen.dart';
 import 'package:moorky/dashboardscreen/view/dashboardscreen.dart';
 import 'package:moorky/profilecreate/provider/profileprovider.dart';
 import 'package:moorky/profilecreate/repository/profileRepository.dart';
@@ -122,13 +123,13 @@ class _BasicPlan_ScreenState extends State<BasicPlan_Screen> {
               child: SvgPicture.asset("assets/images/arrowback.svg",fit: BoxFit.scaleDown,))
       ),
       backgroundColor: Colors.white,
-      bottomNavigationBar: Container(
-        height: 40,
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        child: Container(
-          height: 8.h,width: 160.w,decoration: BoxDecoration(color: Color(0xFF6B18C3),borderRadius: BorderRadius.circular(25.r)),),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 40,
+      //   color: Colors.transparent,
+      //   alignment: Alignment.center,
+      //   child: Container(
+      //     height: 8.h,width: 160.w,decoration: BoxDecoration(color: Color(0xFF6B18C3),borderRadius: BorderRadius.circular(25.r)),),
+      // ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -347,7 +348,9 @@ class _BasicPlan_ScreenState extends State<BasicPlan_Screen> {
                               ),
                             );
                           },
-                        ):Center(child: Text(AppLocalizations.of(context)!.noplans),):Center(child: CircularProgressIndicator(),);}
+                        ):Center(child: Text(AppLocalizations.of(context)!.noplans),):
+                       shimmerLoadingWidget(context);
+                      }
                   )
 
               ),

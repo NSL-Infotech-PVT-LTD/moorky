@@ -77,6 +77,7 @@ class SettingProvider extends ChangeNotifier{
     if (_premiumPlansModel == null) {
       _premiumPlansModel = premiumPlansModel;
       planid=premiumPlansModel.data!.elementAt(0).id;
+      print("pspssps$planid");
       if(Platform.isIOS)
         {
           sku=premiumPlansModel.data!.elementAt(0).ios_sku;

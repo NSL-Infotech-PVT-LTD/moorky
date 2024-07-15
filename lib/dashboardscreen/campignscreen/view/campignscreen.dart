@@ -9,6 +9,7 @@ import 'package:moorky/dashboardscreen/provider/dashboardprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 class CampignScreen extends StatefulWidget {
   const CampignScreen({Key? key}) : super(key: key);
 
@@ -82,7 +83,7 @@ class _CampignScreenState extends State<CampignScreen> {
                               child: Image.network(dashboardprovider.campaignList!.data!.elementAt(index).banner!,fit: BoxFit.fill,),margin: EdgeInsets.only(bottom: 10.0.h,left: 3,right: 3),)),
                         childCount: dashboardprovider.campaignList!.data!.length,
                       ),
-                    ):Center(child: CircularProgressIndicator(),)
+                    ):shimmerLoadingWidget(context)
                 ),
                 SizedBox(height: 40.h,),
                 Image.asset("assets/images/moorky2.png",height: 70.h,width: 180.w,fit: BoxFit.fill,),
@@ -93,4 +94,30 @@ class _CampignScreenState extends State<CampignScreen> {
       ),
     );
   }
+
+}
+shimmerLoadingWidget(BuildContext context){
+  return SizedBox(
+    width: MediaQuery.of(context).size.width,
+    height: 150,
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 2,
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 1.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child:  SizedBox(height: 120,width: MediaQuery.of(context).size.width*0.4,),
+          );
+        },
+      ),
+    ),
+  );
 }

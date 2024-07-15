@@ -36,7 +36,8 @@ class Debouncer {
 }
 class MessageScreen extends StatefulWidget {
   int index=0;
-  MessageScreen({required this.index});
+  bool ?showIcon;
+  MessageScreen({required this.index,this.showIcon});
 
   @override
   State<MessageScreen> createState() => _MessageScreenState();
@@ -76,8 +77,10 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,elevation: 0,
-          leadingWidth: 0,
-          toolbarHeight: 0,
+          leadingWidth: (widget.showIcon??false)?50:0,
+          toolbarHeight: (widget.showIcon??false)?50:0,
+          leading:(widget.showIcon??false)? IconButton(icon: Icon(Icons.close,color: Colors.black,),onPressed: (){Navigator.pop(context);},):
+          SizedBox.shrink(),
           // title: typing ? Container(
           //   alignment: Alignment.centerLeft,
           //   color: Colors.white,
@@ -124,7 +127,7 @@ class _MessageScreenState extends State<MessageScreen> {
           //     if(!profilepro.activemonogomy)
           //       {
           //         setState(() {
-          //           typing = !typing;
+          //           //typing = !typing;
           //         });
           //       }
           //   },padding: EdgeInsets.only(right: 10.w), icon: SvgPicture.asset("assets/images/search.svg"))

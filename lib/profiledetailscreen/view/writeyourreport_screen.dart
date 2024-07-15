@@ -70,7 +70,8 @@ class _WriteYourReport_ScreenState extends State<WriteYourReport_Screen> {
               },
               child: SvgPicture.asset("assets/images/arrowback.svg",fit: BoxFit.scaleDown,))
       ),
-      bottomNavigationBar: !isTrue?whatHappedText.trim() != ""?InkWell(
+      bottomNavigationBar: !isTrue?whatHappedText.trim() != ""?
+      InkWell(
         splashColor: Colors.transparent,
         focusColor: Colors.transparent,
         hoverColor: Colors.transparent,
@@ -108,7 +109,8 @@ class _WriteYourReport_ScreenState extends State<WriteYourReport_Screen> {
             alignment: Alignment.center,
             child: addMediumText(AppLocalizations.of(context)!.submitreport, 14, Color(0xFFFFFFFF))
         ),
-      ):Container(
+      ):
+      Container(
           height: 70.h,
           margin: EdgeInsets.only(top: 90.h,left: 25.w,right: 25.w,bottom: 15.h),
           decoration: BoxDecoration(
@@ -117,7 +119,8 @@ class _WriteYourReport_ScreenState extends State<WriteYourReport_Screen> {
               borderRadius: BorderRadius.circular(50.r)),
           alignment: Alignment.center,
           child: addMediumText(AppLocalizations.of(context)!.submitreport, 14, Color(0xFFC2A3DD))
-      ):CircularProgressIndicator(),
+      ):SizedBox(
+          width:80,child: CircularProgressIndicator()),
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(

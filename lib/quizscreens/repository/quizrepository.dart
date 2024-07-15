@@ -328,11 +328,17 @@ class QuizRepository{
   }
   static Future<LanguageListModel> getlanguageList(String accesstoken)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("dsdsdsdsdsd${prefs.getString("lang")}");
     var response=await http.post(Uri.parse("${AppUrl.baseUrl}api/language/list"),
+
       headers: {
         "authorization": "Bearer ${accesstoken.toString()}",
         "X-localization": "${prefs.getString("lang")}"
-      },);
+      },
+    body: {
+      "X-localization": "${prefs.getString("lang")}"
+    }
+    );
     if(response.statusCode==200)
     {
       print(jsonDecode(response.body));

@@ -17,9 +17,9 @@ import 'package:moorky/profilecreate/repository/profileRepository.dart';
 import 'package:moorky/profiledetailscreen/view/profiledetailscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+// import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../constant/color.dart';
 
 class UserActivity_Screen extends StatefulWidget {
@@ -53,15 +53,14 @@ class _UserActivity_ScreenState extends State<UserActivity_Screen> {
       provider.fetchUserActivity(preferences!.getString("accesstoken").toString());
       profilepro.fetchProfileDetailsuseractivity(preferences!.getString("accesstoken").toString());
     }
-    print("likeuserlist=====");
     if(preferences!.getString("usertype")!=null)
     {
-      print("likeuserlist=====efefef");
+
       setState(() {
         usertype=preferences!.getString("usertype")!.toString();
       });
     }
-    print("likeuserlist=====efefefdsdsdssffs");
+
     if(usertype=="premium")
     {
       if(profilepro.activemonogomy)
@@ -145,39 +144,39 @@ class _UserActivity_ScreenState extends State<UserActivity_Screen> {
                           ),
                         ])),
                     SizedBox(height: 10.h,),
-                    Container(
-                      height: 150,
-                      child: SfCartesianChart(
-                          primaryXAxis: CategoryAxis(isVisible: true,arrangeByIndex: true,labelPlacement: LabelPlacement.onTicks,
-                          labelStyle: TextStyle(color: Colors.black)),
-                          primaryYAxis: CategoryAxis(isVisible: false,),
-                          enableAxisAnimation: true,
-                          borderWidth: 0,
-                          onMarkerRender: (args) {
-                            print(args.pointIndex!);
-                            if(args.pointIndex! == 6)
-                              {
-                                args.color = Colorss.mainColor;
-                                args.markerHeight = 10;
-                                args.markerWidth = 10;
-                                args.shape = DataMarkerType.circle;
-                                args.borderWidth = 0;
-                              }
-                          },
-                          plotAreaBorderWidth: 0,
-                          series: <ChartSeries>[
-                            LineSeries<UserActivityData, String>(
-                                dataSource: dataProvider.yourActivitylistModel!.data!.reversed.toList(),
-                                xValueMapper: (UserActivityData date, _) => date.date,
-                                yValueMapper: (UserActivityData count, _) => count.count,
-                                color: Colorss.mainColor,
-                                markerSettings:MarkerSettings(isVisible: true,color: Colors.white,borderColor: Colorss.mainColor,
-                                ),
-                                dataLabelSettings: DataLabelSettings(isVisible: false
-                                ))
-                          ]
-                      ),
-                    ),
+                    // Container(
+                    //   height: 150,
+                    //   child: SfCartesianChart(
+                    //       primaryXAxis: CategoryAxis(isVisible: true,arrangeByIndex: true,labelPlacement: LabelPlacement.onTicks,
+                    //       labelStyle: TextStyle(color: Colors.black)),
+                    //       primaryYAxis: CategoryAxis(isVisible: false,),
+                    //       enableAxisAnimation: true,
+                    //       borderWidth: 0,
+                    //       onMarkerRender: (args) {
+                    //         print(args.pointIndex!);
+                    //         if(args.pointIndex! == 6)
+                    //           {
+                    //             args.color = Colorss.mainColor;
+                    //             args.markerHeight = 10;
+                    //             args.markerWidth = 10;
+                    //             args.shape = DataMarkerType.circle;
+                    //             args.borderWidth = 0;
+                    //           }
+                    //       },
+                    //       plotAreaBorderWidth: 0,
+                    //       series: <ChartSeries>[
+                    //         LineSeries<UserActivityData, String>(
+                    //             dataSource: dataProvider.yourActivitylistModel!.data!.reversed.toList(),
+                    //             xValueMapper: (UserActivityData date, _) => date.date,
+                    //             yValueMapper: (UserActivityData count, _) => count.count,
+                    //             color: Colorss.mainColor,
+                    //             markerSettings:MarkerSettings(isVisible: true,color: Colors.white,borderColor: Colorss.mainColor,
+                    //             ),
+                    //             dataLabelSettings: DataLabelSettings(isVisible: false
+                    //             ))
+                    //       ]
+                    //   ),
+                    // ),
                     SizedBox(height: 10.h,),
                     addMediumText("${dataProvider.yourActivitylistModel!.matches} ${AppLocalizations.of(context)!.newcontact} · ${dataProvider.yourActivitylistModel!.visitors} ${AppLocalizations.of(context)!.newvisitor} · ${dataProvider.yourActivitylistModel!.likes} ${AppLocalizations.of(context)!.likedyou}", 12, Colors.black),
                   ],
@@ -200,7 +199,7 @@ class _UserActivity_ScreenState extends State<UserActivity_Screen> {
                   ),
                 ),);
               }
-              return Center(child: CircularProgressIndicator(),);
+              return shimmerLoadingWidget(2);
             }),
             SizedBox(height: 40.h,),
             Column(
@@ -349,7 +348,7 @@ class _UserActivity_ScreenState extends State<UserActivity_Screen> {
                       ),
                     ),);
                   }
-                  return Center(child: CircularProgressIndicator(),);
+                  return   shimmerLoadingWidget(1);
                 }),
               ],
             ),
@@ -362,12 +361,32 @@ class _UserActivity_ScreenState extends State<UserActivity_Screen> {
                   Image.asset("assets/images/moorky2.png",height: 45.h,width: 150.w,),
                   SizedBox(height: 5.h,),
                   Container(
-                    height: 8.h,width: 140.w,decoration: BoxDecoration(color: Color(0xFF751ACD),borderRadius: BorderRadius.circular(25.r)),),
+                    height: 8.h,width: 140.w,),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+  shimmerLoadingWidget(int count){
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: count,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 1.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const SizedBox(height: 30),
+          );
+        },
       ),
     );
   }

@@ -4,9 +4,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:moorky/dashboardscreen/messagescreen/new_chat_screen.dart';
+import 'package:moorky/main.dart';
 import 'package:moorky/premiumscreen/view/premiumscreen.dart';
 import 'package:moorky/profilecreate/model/profileDetailsmodel.dart';
 import 'package:moorky/profilecreate/repository/profileRepository.dart';
+import 'package:moorky/profiledetailscreen/view/matchprofiledetail.dart';
 import 'package:moorky/profiledetailscreen/view/profiledetailscreen.dart';
 import 'package:moorky/zegocloud/peer/peer_chat_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,14 +46,17 @@ class NotificationService {
         ),
         iOS: IOSNotificationDetails(presentAlert: true,presentSound: true)
       );
+if(notifitypeScreen=="ChatScreen"&&message.data['type']=="messages"){}
 
-      await _notificationsPlugin.show(
-        id,
-        message.notification!.title,
-        message.notification!.body,
-        notificationDetails,
-        payload: message.notification!.title!,
-      );
+      else{
+  await _notificationsPlugin.show(
+    id,
+    message.notification!.title,
+    message.notification!.body,
+    notificationDetails,
+    payload: message.notification!.title!,
+  );
+}
       const InitializationSettings initializationSettings =
       InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -68,33 +74,34 @@ class NotificationService {
           }
           if(profiledetails != null)
           {
-            Get.to(ProfileDetailScreen(user_id: message.data['id'], isSelf: false, isLike: false, isSearch: false,
-              startheigh: profiledetails.data!.userfilterdata!.start_tall_are_you.toString(),
-              endheigh: profiledetails.data!.userfilterdata!.end_tall_are_you.toString(),
-              startag: profiledetails.data!.userfilterdata!.age_from.toString(),
-              endag: profiledetails.data!.userfilterdata!.age_to.toString(),
-              religion: profiledetails.data!.userfilterdata!.religion.toString(),
-              search: "",
-              star_sign: profiledetails.data!.userfilterdata!.star_sign.toString(),
-              sexual_orientation: profiledetails.data!.userfilterdata!.sexual_orientation.toString(),
-              refresh: "",
-              feel_about_kids: profiledetails.data!.userfilterdata!.feel_about_kids.toString(),
-              do_you_smoke: profiledetails.data!.userfilterdata!.do_you_smoke.toString(),
-              do_you_drink: profiledetails.data!.userfilterdata!.do_you_drink.toString(),
-              directchatcount:0,
-              datewith: profiledetails.data!.userfilterdata!.date_with.toString(),
-              education: profiledetails.data!.userfilterdata!.education.toString(),
-              have_pets: profiledetails.data!.userfilterdata!.have_pets.toString(),
-              isPremium: "",
-              introvert_or_extrovert: profiledetails.data!.userfilterdata!.introvert_or_extrovert.toString(),
-              looking_fors: profiledetails.data!.userfilterdata!.looking_fors.toString(),
-              languages: profiledetails.data!.userfilterdata!.languages.toString(),
-              languageList: profiledetails.data!.userfilterdata!.languages.toString().replaceAll("[", "").replaceAll("]", ""),
-              maritals: profiledetails.data!.userfilterdata!.maritals.toString(),
-              profileimage: "",
-              type: "all",
-              usertype: profiledetails.data!.user_type,
-              userIndex: "",));
+            // Get.to(ProfileDetailScreen(user_id: message.data['id'], isSelf: false, isLike: true, isSearch: false,
+            //   startheigh: profiledetails.data!.userfilterdata!.start_tall_are_you.toString(),
+            //   endheigh: profiledetails.data!.userfilterdata!.end_tall_are_you.toString(),
+            //   startag: profiledetails.data!.userfilterdata!.age_from.toString(),
+            //   endag: profiledetails.data!.userfilterdata!.age_to.toString(),
+            //   religion: profiledetails.data!.userfilterdata!.religion.toString(),
+            //   search: "",
+            //   star_sign: profiledetails.data!.userfilterdata!.star_sign.toString(),
+            //   sexual_orientation: profiledetails.data!.userfilterdata!.sexual_orientation.toString(),
+            //   refresh: "",
+            //   feel_about_kids: profiledetails.data!.userfilterdata!.feel_about_kids.toString(),
+            //   do_you_smoke: profiledetails.data!.userfilterdata!.do_you_smoke.toString(),
+            //   do_you_drink: profiledetails.data!.userfilterdata!.do_you_drink.toString(),
+            //   directchatcount:0,
+            //   datewith: profiledetails.data!.userfilterdata!.date_with.toString(),
+            //   education: profiledetails.data!.userfilterdata!.education.toString(),
+            //   have_pets: profiledetails.data!.userfilterdata!.have_pets.toString(),
+            //   isPremium: "",
+            //   introvert_or_extrovert: profiledetails.data!.userfilterdata!.introvert_or_extrovert.toString(),
+            //   looking_fors: profiledetails.data!.userfilterdata!.looking_fors.toString(),
+            //   languages: profiledetails.data!.userfilterdata!.languages.toString(),
+            //   languageList: profiledetails.data!.userfilterdata!.languages.toString().replaceAll("[", "").replaceAll("]", ""),
+            //   maritals: profiledetails.data!.userfilterdata!.maritals.toString(),
+            //   profileimage: "",
+            //   type: "all",
+            //   usertype: profiledetails.data!.user_type,
+            //   userIndex: "",));
+            Get.to(MatchProfileDetailScreen(user_id: message.data['id']));
           }
         }
             if (message.notification != null) {
@@ -104,7 +111,7 @@ class NotificationService {
 
               if(message.data['type']=="likes_you")
               {
-                Get.to(MessageScreen(index: 1));
+                Get.to(MessageScreen(index: 1,showIcon: true,));
               }
               if(message.data['type']=="profile_visitors"){
                 SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -114,37 +121,39 @@ class NotificationService {
                 }
                 if(profiledetails != null)
                 {
-                  Get.to(ProfileDetailScreen(user_id: message.data['id'], isSelf: false, isLike: false, isSearch: false,
-                    startheigh: profiledetails.data!.userfilterdata!.start_tall_are_you.toString(),
-                    endheigh: profiledetails.data!.userfilterdata!.end_tall_are_you.toString(),
-                    startag: profiledetails.data!.userfilterdata!.age_from.toString(),
-                    endag: profiledetails.data!.userfilterdata!.age_to.toString(),
-                    religion: profiledetails.data!.userfilterdata!.religion.toString(),
-                    search: "",
-                    star_sign: profiledetails.data!.userfilterdata!.star_sign.toString(),
-                    sexual_orientation: profiledetails.data!.userfilterdata!.sexual_orientation.toString(),
-                    refresh: "",
-                    feel_about_kids: profiledetails.data!.userfilterdata!.feel_about_kids.toString(),
-                    do_you_smoke: profiledetails.data!.userfilterdata!.do_you_smoke.toString(),
-                    do_you_drink: profiledetails.data!.userfilterdata!.do_you_drink.toString(),
-                    directchatcount:0,
-                    datewith: profiledetails.data!.userfilterdata!.date_with.toString(),
-                    education: profiledetails.data!.userfilterdata!.education.toString(),
-                    have_pets: profiledetails.data!.userfilterdata!.have_pets.toString(),
-                    isPremium: "",
-                    introvert_or_extrovert: profiledetails.data!.userfilterdata!.introvert_or_extrovert.toString(),
-                    looking_fors: profiledetails.data!.userfilterdata!.looking_fors.toString(),
-                    languages: profiledetails.data!.userfilterdata!.languages.toString(),
-                    languageList: profiledetails.data!.userfilterdata!.languages.toString().replaceAll("[", "").replaceAll("]", ""),
-                    maritals: profiledetails.data!.userfilterdata!.maritals.toString(),
-                    profileimage: "",
-                    type: "all",
-                    usertype: profiledetails.data!.user_type,
-                    userIndex: "",));
+                  // Get.to(ProfileDetailScreen(user_id: message.data['id'], isSelf: false, isLike: true, isSearch: false,
+                  //   startheigh: profiledetails.data!.userfilterdata!.start_tall_are_you.toString(),
+                  //   endheigh: profiledetails.data!.userfilterdata!.end_tall_are_you.toString(),
+                  //   startag: profiledetails.data!.userfilterdata!.age_from.toString(),
+                  //   endag: profiledetails.data!.userfilterdata!.age_to.toString(),
+                  //   religion: profiledetails.data!.userfilterdata!.religion.toString(),
+                  //   search: "",
+                  //   star_sign: profiledetails.data!.userfilterdata!.star_sign.toString(),
+                  //   sexual_orientation: profiledetails.data!.userfilterdata!.sexual_orientation.toString(),
+                  //   refresh: "",
+                  //   feel_about_kids: profiledetails.data!.userfilterdata!.feel_about_kids.toString(),
+                  //   do_you_smoke: profiledetails.data!.userfilterdata!.do_you_smoke.toString(),
+                  //   do_you_drink: profiledetails.data!.userfilterdata!.do_you_drink.toString(),
+                  //   directchatcount:0,
+                  //   datewith: profiledetails.data!.userfilterdata!.date_with.toString(),
+                  //   education: profiledetails.data!.userfilterdata!.education.toString(),
+                  //   have_pets: profiledetails.data!.userfilterdata!.have_pets.toString(),
+                  //   isPremium: "",
+                  //   introvert_or_extrovert: profiledetails.data!.userfilterdata!.introvert_or_extrovert.toString(),
+                  //   looking_fors: profiledetails.data!.userfilterdata!.looking_fors.toString(),
+                  //   languages: profiledetails.data!.userfilterdata!.languages.toString(),
+                  //   languageList: profiledetails.data!.userfilterdata!.languages.toString().replaceAll("[", "").replaceAll("]", ""),
+                  //   maritals: profiledetails.data!.userfilterdata!.maritals.toString(),
+                  //   profileimage: "",
+                  //   type: "all",
+                  //   usertype: profiledetails.data!.user_type,
+                  //   userIndex: "",));
+
+                  Get.to(MatchProfileDetailScreen(user_id: message.data['id']));
                 }
               }
               if(message.data['type']=="matches"){
-                Get.to(MessageScreen(index: 0));
+                Get.to(MessageScreen(index: 0,showIcon: true,));
               }
               if(message.data['type']=="messages"){
                 SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -159,14 +168,41 @@ class NotificationService {
                   {
                     if(profiledetails.data!.active_monogamy!)
                     {
-                      Get.to(PeerChatPage(conversationID: message.data['id'], conversationName: message.notification!.body.toString().replaceAll("You received a new message from ","").toString(), conversationImage: message.data['image'], senderImage: profiledetails.data!.profile_image));
+                      Get.to(ChatPage(
+                          arguments: ChatPageArguments(
+                            conversationName: preferences.getString("lang").toString()=="tr"?message.notification!.body
+                                .toString().split("'")[0]:message.notification!.body.toString().replaceAll("You received a new message from ","").toString(),
+                            // peerId: docId,
+                            //  otherUserId: (dataProvider
+                            //      .userChatListModel!.data!
+                            //      .elementAt(index)
+                            //      .user!
+                            //      .id),
+                            peerAvatar: profiledetails.data!.profile_image,
+                            peerNickname:  message.data['room_data'].toString().split(",")[1], otherUserId: int.parse(message.data['id'].toString()), peerId: message.data['room_data'].toString().split(",")[1],
+                          )));
+                      //Get.to(PeerChatPage(conversationID: message.data['id'], conversationName: message.notification!.body.toString().replaceAll("You received a new message from ","").toString(), conversationImage: message.data['image'], senderImage: profiledetails.data!.profile_image));
+                      // Get.to(MessageScreen(index: 0,));
                     }
                     else{
-                      Get.to(DashBoardScreen(pageIndex: 1,isNotification: false,));
+                      Get.to(ChatPage(
+                          arguments: ChatPageArguments(
+                            conversationName:preferences.getString("lang").toString()=="tr"?message.notification!.body
+                                .toString().split("'")[0]: message.notification!.body.toString().replaceAll("You received a new message from ","").toString(),
+                            // peerId: docId,
+                            //  otherUserId: (dataProvider
+                            //      .userChatListModel!.data!
+                            //      .elementAt(index)
+                            //      .user!
+                            //      .id),
+                            peerAvatar: profiledetails.data!.profile_image,
+                            peerNickname:  message.data['room_data'].toString().split(",")[1], otherUserId: int.parse(message.data['id'].toString()), peerId: message.data['room_data'].toString().split(",")[1],
+                          )));
                     }
                   }
                   else{
-                    Get.to(Premium_Screen());
+                     Get.to(Premium_Screen());
+
                   }
                 }
 

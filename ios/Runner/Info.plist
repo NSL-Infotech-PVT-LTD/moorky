@@ -56,9 +56,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Why is my app authenticating using face id?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>The app may offer features such as "nearby users" or "location-based search" to help you discover and connect with people in your area who share similar interests or preferences.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Needed to access location</string>
+	<string>The app may offer features such as "nearby users" or "location-based search" to help you discover and connect with people in your area who share similar interests or preferences.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We require microphone access to connect to a call</string>
 	<key>NSPhotoLibraryUsageDescription</key>

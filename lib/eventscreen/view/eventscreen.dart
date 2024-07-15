@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:moorky/calender/flutter_neat_and_clean_calendar.dart';
 import 'package:moorky/commanWidget/commanwidget.dart';
 import 'package:moorky/constant/color.dart';
+import 'package:moorky/dashboardscreen/homescreen/view/homescreen_new.dart';
 import 'package:moorky/dashboardscreen/provider/dashboardprovider.dart';
 import 'package:moorky/dashboardscreen/repository/dashboardrepository.dart';
 import 'package:moorky/dashboardscreen/view/dashboardscreen.dart';
@@ -17,6 +19,7 @@ import 'package:moorky/profilescreen/view/profilescreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Event_Screen extends StatefulWidget {
   @override
@@ -83,15 +86,40 @@ class _Event_ScreenState extends State<Event_Screen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 10.w,),
-            InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: (){
-                  Get.to(ProfileScreen());
-                },
-                child: SvgPicture.asset("assets/images/profile.svg",fit: BoxFit.scaleDown,height: 45.h,width: 45.w,)),
+            Consumer<ProfileProvider>(
+              builder: (context,profileprovider,child) {
+                return InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: (){
+                      Get.to(ProfileScreen());
+                    },
+                    child:
+                    ClipOval(
+                        child: (profileprovider
+                            ?.profiledetails?.data?.profile_image ??
+                            "")
+                            .isEmpty
+                            ? CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.blue,
+                          child: Image.asset("assets/images/imgavtar.png"),
+                        )
+                            : CachedNetworkImage(
+                          imageUrl: profileprovider
+                              ?.profiledetails?.data?.profile_image ??
+                              "",
+                          fit: BoxFit.cover,
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
+                                backgroundImage: imageProvider,
+                                radius: 20.0,
+                              ),
+                        )),);
+              }
+            )
           ],
         ),
       ),
@@ -205,7 +233,7 @@ class _Event_ScreenState extends State<Event_Screen> {
                               children: [
                                 GestureDetector(
                                   onTap: (){
-                                    Get.to(CustomizationCalendar_Screen(isEdit: true,title: "",date: DateFormat('d MMMM y',provider.locale!.languageCode.toString()).format(dateTime!),description: "",user_id: anotherUserId,event_id: "",remainder: "Select Reminder",remainderid: "",type: "self",));
+                                    Get.to(CustomizationCalendar_Screen(isEdit: true,title: "",date: DateFormat('d MMMM y',provider.locale!.languageCode.toString()).format(dateTime!),description: "",user_id: anotherUserId,event_id: "",remainder: AppLocalizations.of(context)!.pleaseselectremainder,remainderid: "",type: "self",));
                                   },
                                   child: Container(
                                       height: 40.h,
@@ -234,7 +262,10 @@ class _Event_ScreenState extends State<Event_Screen> {
                                 SizedBox(width: 20.w,),
                                 GestureDetector(
                                   onTap: (){
-                                    Get.to(CustomizationCalendar_Screen(isEdit: true,title: "",date: DateFormat('d MMMM y',provider.locale!.languageCode.toString()=="ar"?"en":provider.locale!.languageCode.toString()).format(dateTime!),description: "",user_id: anotherUserId,event_id: "",remainder: "Select Reminder",remainderid: "",type: "both",));
+                                    Get.to(CustomizationCalendar_Screen(isEdit: true,title: "",date:
+                                    DateFormat('d MMMM y  HH:mm:ss').format(dateTime!).toString(),
+
+                                      description: "",user_id: anotherUserId,event_id: "",remainder: AppLocalizations.of(context)!.pleaseselectremainder,remainderid: "",type: "both",));
                                   },
                                   child: Container(
                                       height: 40.h,
@@ -366,7 +397,8 @@ class _Event_ScreenState extends State<Event_Screen> {
                       ),
                       ),
                       SizedBox(height: 20,),
-                      !isLoad?GestureDetector(
+                      !isLoad?
+                      GestureDetector(
                         onTap: ()async{
                           setState(() {
                             isLoad=true;
@@ -409,13 +441,71 @@ class _Event_ScreenState extends State<Event_Screen> {
                               ],
                             )
                         ),
-                      ):Container(alignment: Alignment.topCenter,child: CircularProgressIndicator(),),
+                      ):
+                    Container(alignment: Alignment.topCenter,child: CircularProgressIndicator(),),
+
                     ],
 
                   ),
                 );
             }
-            return Center(child: CircularProgressIndicator(),);
+            return Shimmer.fromColors(
+                period: Duration(milliseconds: 800),
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.white,
+                child: Container(
+
+                  child:Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 80.h),
+                        decoration: BoxDecoration(shape: BoxShape.circle,  color: Colors.green,),
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          enabled: true,
+                          child:   Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: CircleAvatar(
+                              radius: 40,
+                            ),
+                          ),),
+                      ),
+
+                        Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 120.h,
+                              width: 120.w,
+                              margin: EdgeInsets.only(top: 50.h),
+                              child: Image.asset("assets/images/superlike.png"),
+                            )
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:20.h,bottom: 80.h),
+                          decoration: BoxDecoration(shape: BoxShape.circle,  color: Colors.green,),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            enabled: true,
+                            child:   Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CircleAvatar(
+                                radius: 40,
+                              ),
+                            ),),
+                        ),
+                    ],),
+                    SizedBox(height: 30,),
+                    Container(
+
+                      color: Colors.green,
+                      constraints: BoxConstraints(maxHeight: 500.h,),
+                    ),
+                  ],)
+                ));
           }),
         ),
       ),
